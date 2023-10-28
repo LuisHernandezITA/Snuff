@@ -1,0 +1,9 @@
+.logo {
+    transition: all 0.5s; /* Transición suave de 0.3 segundos */
+  }
+  
+  /* Cambio de tamaño y color al hacer hover */
+  .logo:hover{
+    transform: scale(1.2); /* Aumenta el tamaño en 20% en hover */
+    fill: #f3e5e5; /* Cambia el color de relleno en hover (puedes ajustar el color) */
+  }
