@@ -32,15 +32,18 @@ function ListCard() {
     </Spinner>;
 
     return (
-        <>
+        <div className="row">
             {userData.map((user) => (
-                <Card_C name={user.name} email={user.email} />
+                <div className="col-md-3 mb-4">
+                    <Card_C name={user.name} email={user.email} />
+                </div>
             ))}
-        </>
+        </div>
     );
 }
 
 export default ListCard;
+
 
 /* 
     return (

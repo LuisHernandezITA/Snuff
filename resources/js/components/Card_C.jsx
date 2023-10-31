@@ -6,6 +6,8 @@ function Card_C(props) {
     const email = props.email;
     return (
         <Card style={{ width: "18rem" }}>
+      <Card.Img variant="top" src="/img/playeramm.png" />
+            
             <Card.Body>
                 <Card.Title>{firstName}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
