@@ -3,15 +3,32 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, Outlet } from "react-router-dom";
 import "/resources/css/app.css";
-import { Carousel } from "react-bootstrap";
-import ExampleCarouselImage from "./ExampleCarouselImage";
+import Carrousel from "./Carrousel";
+import React, { useState } from "react";
+import { MDBIcon } from "mdb-react-ui-kit";
 
 function Menu() {
+    const [showCarousel, setShowCarousel] = useState(true);
+
+    const handleNavClick = () => {
+        // Oculta el carrusel cuando se hace clic en "Login"
+        setShowCarousel(false);
+    };
+
+    const handleNavClickWithCarousel = () => {
+        // Vuelve a mostrar el carrusel cuando se hace clic en cualquier otro enlace
+        setShowCarousel(true);
+    };
+
     return (
         <>
             <Navbar className="navbar navbar-expand-lg bg-dark navbar-dark">
                 <Container>
-                    <Navbar.Brand href="#home">
+                    <Navbar.Brand
+                        as={Link}
+                        to=""
+                        onClick={handleNavClickWithCarousel}
+                    >
                         <img
                             alt=""
                             src="/img/logosmc.svg"
@@ -20,64 +37,54 @@ function Menu() {
                             className="d-inline-block align-top logo"
                         />{" "}
                     </Navbar.Brand>
-                    <Nav className="me-auto">
-                        <Nav.Link as={Link} to="">
+
+                    <Nav>
+                        <Nav.Link
+                            as={Link}
+                            to=""
+                            onClick={handleNavClickWithCarousel}
+                        >
                             Home
                         </Nav.Link>
-                        <Nav.Link as={Link} to="Card">
+                        <Nav.Link
+                            as={Link}
+                            to="Card"
+                            onClick={handleNavClickWithCarousel}
+                        >
                             Card
                         </Nav.Link>
-                        <Nav.Link as={Link} to="ListCard">
+                        <Nav.Link
+                            as={Link}
+                            to="ListCard"
+                            onClick={handleNavClickWithCarousel}
+                        >
                             List Cards
                         </Nav.Link>
-                        <Nav.Link as={Link} to="Login">
+                        <Nav.Link as={Link} to="Login" onClick={handleNavClick}>
                             Login
                         </Nav.Link>
+                        <Nav.Link
+                            as={Link}
+                            to="Login_B"
+                            onClick={handleNavClick}
+                        >
+                            Login
+                        </Nav.Link>
+
+                        <Nav.Item className="ml-auto">
+                            <Nav.Link
+                                as={Link}
+                                to="Login_B"
+                                onClick={handleNavClick}
+                            >
+                                <MDBIcon fas icon="shopping-cart" />
+                            </Nav.Link>
+                        </Nav.Item>
                     </Nav>
                 </Container>
             </Navbar>
 
-            <Carousel>
-                <Carousel.Item interval={2000}>
-                    <ExampleCarouselImage
-                        text="First slide"
-                        image="/img/car1.png"
-                    />
-                    <Carousel.Caption className="text-dark">
-                        <h3>First slide label</h3>
-                        <p>
-                            Nulla vitae elit libero, a pharetra augue mollis
-                            interdum.
-                        </p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item interval={1000}>
-                    <ExampleCarouselImage
-                        text="Second slide"
-                        image="/img/car2.jpg"
-                    />
-                    <Carousel.Caption>
-                        <h3>Second slide label</h3>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit.
-                        </p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item interval={500}>
-                    <ExampleCarouselImage
-                        text="Third slide"
-                        image="/img/car3.jpg"
-                    />
-                    <Carousel.Caption>
-                        <h3>Third slide label</h3>
-                        <p>
-                            Praesent commodo cursus magna, vel scelerisque nisl
-                            consectetur.
-                        </p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-            </Carousel>
+            {showCarousel && <Carrousel />}
 
             <section>
                 <Container>

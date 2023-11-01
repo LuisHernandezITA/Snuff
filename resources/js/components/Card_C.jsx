@@ -1,13 +1,19 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import "/resources/css/app.css";
 
 function Card_C(props) {
     const firstName = props.name;
     const email = props.email;
     return (
-        <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src="/img/playeramm.png" />
-            
+        <Card className="my-card">
+            <div className="my-card-img-container">
+                <Card.Img
+                    src="/img/playeramm.png"
+                    alt="Card Image"
+                    className="my-card-img"
+                />
+            </div>
             <Card.Body>
                 <Card.Title>{firstName}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">

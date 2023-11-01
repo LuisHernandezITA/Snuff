@@ -7,3 +7,26 @@
     transform: scale(1.2); /* Aumenta el tamaño en 20% en hover */
     fill: #f3e5e5; /* Cambia el color de relleno en hover (puedes ajustar el color) */
   }
+
+  /*CARD*/
+
+  .my-card {
+    width: 300px; /* Ajusta el ancho de la tarjeta según tus necesidades */
+    height: 300px; /* Establece la altura igual al ancho para hacer la tarjeta cuadrada */
+    transition: transform 0.3s; /* Agrega una transición para suavizar el efecto de agrandamiento */
+}
+
+.my-card-img-container {
+    height: 100%; /* Hace que el contenedor de la imagen ocupe toda la altura de la tarjeta */
+    overflow: hidden; /* Oculta cualquier parte de la imagen que exceda los límites de la tarjeta */
+}
+
+.my-card-img {
+    transition: transform 0.3s; /* Agrega una transición para suavizar el efecto de agrandamiento */
+}
+
+.my-card:hover .my-card-img {
+    transform: scale(1.05); /* Agrandar la imagen al pasar el mouse */
+}
+
+  
