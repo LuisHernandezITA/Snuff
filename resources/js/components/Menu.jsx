@@ -6,6 +6,8 @@ import "/resources/css/app.css";
 import Carrousel from "./Carrousel";
 import React, { useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
+import Footer from "./Footer";
+import ListCard from "./ListCard";
 
 function Menu() {
     const [showCarousel, setShowCarousel] = useState(true);
@@ -85,12 +87,15 @@ function Menu() {
             </Navbar>
 
             {showCarousel && <Carrousel />}
+            {showCarousel && <ListCard />}
 
             <section>
                 <Container>
                     <Outlet></Outlet>
                 </Container>
             </section>
+
+            <Footer />
         </>
     );
 }

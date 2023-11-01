@@ -122,13 +122,20 @@ function Login_B() {
 
                     <MDBBtn className="mb-4 w-100">Sign in</MDBBtn>
                     <p className="text-center">
-                        Not a member? <a href="#!">Register</a>
+                        Not a member?{" "}
+                        <a
+                            href="#!"
+                            onClick={() => handleJustifyClick("tab2")}
+                            active={justifyActive === "tab2"}
+                        >
+                            Register
+                        </a>
                     </p>
                 </MDBTabsPane>
 
                 <MDBTabsPane show={justifyActive === "tab2"}>
                     <div className="text-center mb-3">
-                        <p>Sign un with:</p>
+                        <p>Register with:</p>
 
                         <div
                             className="d-flex justify-content-between mx-auto"
