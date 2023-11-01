@@ -4,7 +4,10 @@ import "/resources/css/app.css";
 
 function Card_C(props) {
     const firstName = props.name;
-    const email = props.email;
+    const price = props.price;
+    const description = props.description;
+    const images = props.images;
+
     return (
         <Card className="my-card">
             <div className="my-card-img-container">
@@ -17,9 +20,9 @@ function Card_C(props) {
             <Card.Body>
                 <Card.Title>{firstName}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                    {email}
+                    {description}
                 </Card.Subtitle>
-                <Card.Text>Hola, como estas</Card.Text>
+                <Card.Text>{price}</Card.Text>
                 <Card.Link href="#">Card Link</Card.Link>
                 <Card.Link href="#">Another Link</Card.Link>
             </Card.Body>

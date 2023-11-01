@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\ProductSizes;
 use App\Models\Size;
-use App\Models\Product;
+use App\Models\Products;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product_Sizes>
@@ -19,7 +20,7 @@ class ProductSizesFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => Product::all()->random()->id, 
+            'product_id' => Products::all()->random()->id, 
             'size_id' => Size::all()->random()->id, 
         ];
     }

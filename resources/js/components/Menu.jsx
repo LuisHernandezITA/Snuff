@@ -35,7 +35,7 @@ function Menu() {
                             alt=""
                             src="/img/logosmc.svg"
                             width="150"
-                            height="60"
+                            height="45"
                             className="d-inline-block align-top logo"
                         />{" "}
                     </Navbar.Brand>

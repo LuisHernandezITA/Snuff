@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('shopping_carts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->decimal('total_amount', 10, 2);
             $table->timestamps();
             
             // Define la restricción de clave foránea para relacionar la tabla "shopping_carts" con la tabla "users"

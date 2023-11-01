@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Product_Sizes;
+use App\Models\ProductSizes;
 
 class ProductSizesSeeder extends Seeder
 {
@@ -13,16 +13,16 @@ class ProductSizesSeeder extends Seeder
      */
     public function run(): void
     {
-        $product_sizes = new Product_Sizes();
+        $product_sizes = new ProductSizes();
         $product_sizes->product_id = "1";
         $product_sizes->size_id = "2";
         $product_sizes->save();
 
-        $product_sizes = new Product_Sizes();
+        $product_sizes = new ProductSizes();
         $product_sizes->product_id = "1";
         $product_sizes->size_id = "3";
         $product_sizes->save();
 
-        $product_sizes = new Product_Sizes();
+        $product_sizes = new ProductSizes();
     }
 }

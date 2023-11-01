@@ -19,10 +19,109 @@ class ProductsSeeder extends Seeder
         $products->category_id = "1";
         $products->price = "100";
         $products->available_stock = "100";
-        $products->images = "Snuff_tlogo.jpg";
+        $products->images = "playeramm.png";
         $products->addition_date = '2023-10-12';
         $products->available = True;
         $products->save();
+
+        $products = new Products();
+        $products->name = "Snuff Cap";
+        $products->description = "Cap with minimal logo";
+        $products->category_id = "2";
+        $products->price = "100";
+        $products->available_stock = "100";
+        $products->images = "playeramm.png";
+        $products->addition_date = '2023-10-12';
+        $products->available = True;
+        $products->save();
+
+        $products = new Products();
+        $products->name = "ODIO T-Shirt";
+        $products->description = "T-Shirt made with hate";
+        $products->category_id = "1";
+        $products->price = "100";
+        $products->available_stock = "100";
+        $products->images = "playeramm.png";
+        $products->addition_date = '2023-10-12';
+        $products->available = True;
+        $products->save();
+
+        $products = new Products();
+        $products->name = "Call02 T-Shirt";
+        $products->description = "CallxXx Designed";
+        $products->category_id = "1";
+        $products->price = "100";
+        $products->available_stock = "100";
+        $products->images = "playeramm.png";
+        $products->addition_date = '2023-10-12';
+        $products->available = True;
+        $products->save();
+
+        $products = new Products();
+        $products->name = "Blue Polo Shirt";
+        $products->description = "Casual blue polo shirt for men";
+        $products->category_id = 1; // Shirts
+        $products->price = 45;
+        $products->available_stock = 50;
+        $products->images = "playeramm.png";
+        $products->addition_date = '2023-10-15';
+        $products->available = true;
+        $products->save();
+
+        $products = new Products();
+        $products->name = "Black Leather Jacket";
+        $products->description = "Stylish black leather jacket for women";
+        $products->category_id = 1; // Shirts
+        $products->price = 120;
+        $products->available_stock = 30;
+        $products->images = "playeramm.png";
+        $products->addition_date = '2023-10-14';
+        $products->available = true;
+        $products->save();
+
+$products = new Products();
+$products->name = "Running Shoes";
+$products->description = "Comfortable running shoes for athletes";
+$products->category_id = 2; // Caps
+$products->price = 80;
+$products->available_stock = 75;
+$products->images = "playeramm.png";
+$products->addition_date = '2023-10-13';
+$products->available = true;
+$products->save();
+
+$products = new Products();
+$products->name = "White Dress";
+$products->description = "Elegant white dress for special occasions";
+$products->category_id = 1; // Shirts
+$products->price = 60;
+$products->available_stock = 40;
+$products->images = "playeramm.png";
+$products->addition_date = '2023-10-12';
+$products->available = true;
+$products->save();
+
+$products = new Products();
+$products->name = "Denim Jeans";
+$products->description = "Classic denim jeans for both men and women";
+$products->category_id = 3; // Pants
+$products->price = 55;
+$products->available_stock = 60;
+$products->images = "playeramm.png";
+$products->addition_date = '2023-10-11';
+$products->available = true;
+$products->save();
+
+$products = new Products();
+$products->name = "Sunglasses";
+$products->description = "Stylish sunglasses with UV protection";
+$products->category_id = 2; // Caps
+$products->price = 25;
+$products->available_stock = 90;
+$products->images = "playeramm.png";
+$products->addition_date = '2023-10-10';
+$products->available = true;
+$products->save();
 
         $products = new Products();
     }

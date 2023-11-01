@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom/client";
-import { Button, Card, Spinner, Stack } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import Card_C from "./Card_C";
-import { Container, Table } from "react-bootstrap";
 import "/resources/css/app.css";
 
 function ListCard() {
@@ -11,7 +9,7 @@ function ListCard() {
     useEffect(() => {
         const getUsers = async () => {
             await axios
-                .get("http://localhost:8000/api/user_index")
+                .get("http://localhost:8000/api/products_index")
                 .then(function (response) {
                     console.log(response);
                     setUserData(response.data);
@@ -25,9 +23,11 @@ function ListCard() {
 
     if (userData.length === 0) {
         return (
-            <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            <div className="d-flex flex-wrap justify-content-center">
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            </div>
         );
     }
 
@@ -45,9 +45,14 @@ function ListCard() {
                     className="align-items-center justify-content-center mb-4"
                     style={{ margin: "20px 0" }}
                 >
-                    {group.map((user, userIndex) => (
+                    {group.map((user) => (
                         <div key={user.id} style={{ margin: "40px 35px" }}>
-                            <Card_C name={user.name} email={user.email} />
+                            <Card_C
+                                name={user.name}
+                                description={user.description}
+                                price={user.price}
+                                images={user.images}
+                            />
                         </div>
                     ))}
                 </div>

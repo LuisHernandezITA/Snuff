@@ -4,7 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Color;
-use App\Models\Product;
+use App\Models\Products;
+use App\Models\ProductColors;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product_Colors>
@@ -19,7 +20,7 @@ class ProductColorsFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => Product::all()->random()->id, 
+            'product_id' => Products::all()->random()->id, 
             'color_id' => Color::all()->random()->id, 
         ];
     }

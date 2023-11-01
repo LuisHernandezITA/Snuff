@@ -20,18 +20,6 @@ class ColorSeeder extends Seeder
         $color = new Color();
         $color->name = "Light";
         $color->save();
-        
-        $color = new Color();
-        $color->name = "Yellow";
-        $color->save();
-
-        $color = new Color();
-        $color->name = "Brown";
-        $color->save();
-
-        $color = new Color();
-        $color->name = "Green";
-        $color->save();
 
         $color = new Color();
     }
