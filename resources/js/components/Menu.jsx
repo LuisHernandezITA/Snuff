@@ -8,6 +8,8 @@ import React, { useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import Footer from "./Footer";
 import ListCard from "./ListCard";
+import Cart from "./Cart";
+
 
 function Menu() {
     const [showCarousel, setShowCarousel] = useState(true);
@@ -76,7 +78,7 @@ function Menu() {
                         <Nav.Item className="ml-auto">
                             <Nav.Link
                                 as={Link}
-                                to="Login_B"
+                                to="Cart"
                                 onClick={handleNavClick}
                             >
                                 <MDBIcon fas icon="shopping-cart" />

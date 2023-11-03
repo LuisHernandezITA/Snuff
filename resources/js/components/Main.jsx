@@ -5,6 +5,7 @@ import Menu from "./Menu";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import Login_B from "./Login_B";
+import Cart from "./Cart";
 
 function Main() {
     return (
@@ -15,6 +16,7 @@ function Main() {
                     <Route path="ListCard" element={<ListCard />} />
                     <Route path="Login" element={<Login />} />
                     <Route path="Login_B" element={<Login_B />} />
+                    <Route path="Cart" element={<Cart />} />
                     <Route path="*" element={<Navigate replace to="/" />} />
                 </Route>
             </Routes>
