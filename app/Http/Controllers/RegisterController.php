@@ -14,7 +14,7 @@ class RegisterController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
@@ -31,11 +31,13 @@ class RegisterController extends ResponseController
                             ->accessToken;
         $success['name'] = $user->name;
 
-        return $this->sendResponse($success,
-        'User register succesfully.');
+        return redirect('/Login_B')->with('success', 'Registro exitoso');
+
+        /*return $this->sendResponse($success,
+            'User register succesfully.');*/
     }
 
-    public function login(Request $request): JsonResponse
+    public function login(Request $request)
     {
         if(Auth::attempt(['email' => $request->email, 
         'password' => $request->password])){
@@ -48,8 +50,9 @@ class RegisterController extends ResponseController
             'User login successfully.');
         }
         else{
-            return $this->sendError('Unauthorised.',
-            ['error'=>'Unauthorised']);
+            return redirect('/Login_B');
+            /*return $this->sendError('Unauthorised.',
+            ['error'=>'Unauthorised']);*/
         }
     }
 }

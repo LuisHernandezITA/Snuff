@@ -29,4 +29,85 @@
     transform: scale(1.05); /* Agrandar la imagen al pasar el mouse */
 }
 
-  
+/*BUTTON CARD*/
+
+.custom-button {
+  background: transparent; /* Fondo transparente */
+  border: 2px solid #000; /* Bordes sólidos */
+  color: #000; /* Color del texto */
+  padding: 10px 20px; /* Espaciado interior del botón */
+  transition: background 0.9s ease-in-out, color 0.6s ease-in-out;
+}
+
+.custom-button:hover {
+  background: linear-gradient(to bottom, #000, #333); /* Degradado de color oscuro */
+  color: #fff; /* Cambio de color del texto al pasar el cursor */
+}
+
+
+.custom-button.clicked {
+  background: transparent; /* Fondo transparente cuando el botón ha sido clicado */
+  border: 2px solid #000; /* Bordes negros cuando el botón ha sido clicado */
+}
+
+.custom-button.clicked .mdb-icon {
+  display: inline; /* Mostrar el icono del carrito cuando el botón ha sido clicado */
+}
+
+.custom-button.clicked:disabled {
+  background: transparent; /* Mantener el fondo transparente cuando el botón está desactivado después de hacer clic */
+  border: 2px solid rgb(126, 124, 124); /* Mantener los bordes negros cuando el botón está desactivado después de hacer clic */
+  pointer-events: none; /* Evitar clics adicionales en el botón desactivado */
+}
+
+.custom-button:disabled {
+  background: transparent; /* Mantener el fondo transparente cuando el botón está desactivado después de hacer clic */
+  border: 2px solid rgb(126, 124, 124); /* Mantener los bordes negros cuando el botón está desactivado después de hacer clic */
+  pointer-events: none; /* Evitar clics adicionales en el botón desactivado */
+  color:rgb(126, 124, 124);
+}
+
+
+/*Cart*/
+
+@media (min-width: 1025px) {
+.h-custom {
+height: 100vh !important;
+}
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+top: 13px;
+}
+
+.bg-grey {
+background-color: #eae8e8;
+}
+
+@media (min-width: 992px) {
+.card-registration-2 .bg-grey {
+border-top-right-radius: 16px;
+border-bottom-right-radius: 16px;
+}
+}
+
+@media (max-width: 991px) {
+.card-registration-2 .bg-grey {
+border-bottom-left-radius: 16px;
+border-bottom-right-radius: 16px;
+}
+}
+
+/*VALIDATION TEXT*/
+
+.error-text {
+  color: red;
+  font-size: 12px; /* Tamaño de fuente personalizado */
+}

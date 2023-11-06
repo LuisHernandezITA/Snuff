@@ -4,33 +4,34 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link, Outlet } from "react-router-dom";
 import "/resources/css/app.css";
 import Carrousel from "./Carrousel";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import Footer from "./Footer";
-import ListCard from "./ListCard";
+import { useLocation } from "react-router-dom";
 
 function Menu() {
+    const location = useLocation();
     const [showCarousel, setShowCarousel] = useState(true);
 
-    const handleNavClick = () => {
-        // Oculta el carrusel cuando se hace clic en "Login"
-        setShowCarousel(false);
-    };
-
-    const handleNavClickWithCarousel = () => {
-        // Vuelve a mostrar el carrusel cuando se hace clic en cualquier otro enlace
-        setShowCarousel(true);
-    };
+    // Usar useEffect para ajustar showCarousel en función de la ubicación actual
+    useEffect(() => {
+        // Verificar si la ubicación actual es "Login_B"
+        if (
+            location.pathname === "/Login_B" ||
+            location.pathname === "/Cart" ||
+            location.pathname.startsWith("/Product")
+        ) {
+            setShowCarousel(false);
+        } else {
+            setShowCarousel(true);
+        }
+    }, [location]);
 
     return (
         <>
             <Navbar className="navbar navbar-expand-lg bg-dark navbar-dark">
                 <Container>
-                    <Navbar.Brand
-                        as={Link}
-                        to=""
-                        onClick={handleNavClickWithCarousel}
-                    >
+                    <Navbar.Brand as={Link} to="">
                         <img
                             alt=""
                             src="/img/logosmc.svg"
@@ -41,44 +42,18 @@ function Menu() {
                     </Navbar.Brand>
 
                     <Nav>
-                        <Nav.Link
-                            as={Link}
-                            to=""
-                            onClick={handleNavClickWithCarousel}
-                        >
+                        <Nav.Link as={Link} to="">
                             Home
                         </Nav.Link>
-                        <Nav.Link
-                            as={Link}
-                            to="Card"
-                            onClick={handleNavClickWithCarousel}
-                        >
-                            Card
+                        <Nav.Link as={Link} to="ListCard">
+                            Catalogue
                         </Nav.Link>
-                        <Nav.Link
-                            as={Link}
-                            to="ListCard"
-                            onClick={handleNavClickWithCarousel}
-                        >
-                            List Cards
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="Login" onClick={handleNavClick}>
-                            Login
-                        </Nav.Link>
-                        <Nav.Link
-                            as={Link}
-                            to="Login_B"
-                            onClick={handleNavClick}
-                        >
+                        <Nav.Link as={Link} to="Login_B">
                             Login
                         </Nav.Link>
 
                         <Nav.Item className="ml-auto">
-                            <Nav.Link
-                                as={Link}
-                                to="Login_B"
-                                onClick={handleNavClick}
-                            >
+                            <Nav.Link as={Link} to="Cart">
                                 <MDBIcon fas icon="shopping-cart" />
                             </Nav.Link>
                         </Nav.Item>
@@ -87,7 +62,6 @@ function Menu() {
             </Navbar>
 
             {showCarousel && <Carrousel />}
-            {showCarousel && <ListCard />}
 
             <section>
                 <Container>

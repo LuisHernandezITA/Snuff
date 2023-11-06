@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +30,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password), // Hashear la contraseña
+            // Otros campos relevantes para tu modelo User
+        ]);
+    
+        $user->save();
+
+        return $request;
     }
 
     /**
@@ -62,5 +72,9 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function token(){
+        return csrf_token();
     }
 }

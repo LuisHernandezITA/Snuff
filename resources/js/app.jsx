@@ -13,13 +13,17 @@ import "./bootstrap";
  */
 
 import ReactDOM from "react-dom/client";
+import React from "react";
 import Main from "./components/Main";
 import { BrowserRouter } from "react-router-dom";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import MyPopup from "./components/MyPopup";
 
 ReactDOM.createRoot(document.getElementById("app")).render(
     <BrowserRouter>
         <Main />
     </BrowserRouter>
 );
+
+ReactDOM.render(<MyPopup />, document.getElementById("app"));

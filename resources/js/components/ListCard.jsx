@@ -48,6 +48,7 @@ function ListCard() {
                     {group.map((user) => (
                         <div key={user.id} style={{ margin: "40px 35px" }}>
                             <Card_C
+                                id={user.id}
                                 name={user.name}
                                 description={user.description}
                                 price={user.price}
