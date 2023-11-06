@@ -48,11 +48,11 @@ function ListCard() {
                     {group.map((product) => (
                         <div key={product.id} style={{ margin: "40px 35px" }}>
                             <Card_C
-                                id={user.id}
-                                name={user.name}
-                                description={user.description}
-                                price={user.price}
-                                images={user.images}
+                                id={product.id}
+                                name={product.name}
+                                description={product.description}
+                                price={product.price}
+                                images={product.images}
                             />
                         </div>
                     ))}

@@ -1,3 +1,5 @@
+import "/resources/css/app.css";
+import React from "react";
 import {
     MDBBtn,
     MDBCard,
@@ -11,8 +13,6 @@ import {
     MDBRow,
     MDBTypography,
 } from "mdb-react-ui-kit";
-import "/resources/css/app.css";
-import React from "react";
 
 function Cart() {
     return (
