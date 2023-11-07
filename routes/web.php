@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\ProductsController;
+use App\Models\Products;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +32,7 @@ Route::post('/student_update', [StudentController::class, 'edit']);
 Route::post('/program_store', [ProgramController::class, 'store']);
 
 Route::post('/users_store', [UserController::class, 'store'])->middleware('web');
+
+
 
 Route::view('/{path?}', 'welcome') ->where('path', '.*');

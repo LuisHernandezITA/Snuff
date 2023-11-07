@@ -21,6 +21,8 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
 Route::get('/user_index', [UserController::class, 'index']);
 Route::get('/products_index', [ProductsController::class, 'index']);
+Route::post('/products_show', [ProductsController::class, 'show']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

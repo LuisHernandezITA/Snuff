@@ -23,7 +23,7 @@ function Card_C(props) {
             <Link to={`/Product/${id}`}>
                 <div className="my-card-img-container">
                     <Card.Img
-                        src="/img/playeramm.png"
+                        src={images}
                         alt="Card Image"
                         className="my-card-img"
                     />
