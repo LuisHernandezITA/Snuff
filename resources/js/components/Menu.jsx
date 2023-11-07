@@ -8,10 +8,12 @@ import React, { useState, useEffect } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import Footer from "./Footer";
 import { useLocation } from "react-router-dom";
+import { useUser } from "./UserContext";
 
 function Menu() {
     const location = useLocation();
     const [showCarousel, setShowCarousel] = useState(true);
+    const { userName } = useUser();
 
     // Usar useEffect para ajustar showCarousel en función de la ubicación actual
     useEffect(() => {
@@ -26,6 +28,8 @@ function Menu() {
             setShowCarousel(true);
         }
     }, [location]);
+
+    const defaultUserName = "Invitado";
 
     return (
         <>
@@ -42,15 +46,26 @@ function Menu() {
                     </Navbar.Brand>
 
                     <Nav>
+                        {userName ? ( // Verifica si hay un nombre de usuario
+                            <Nav.Link>Hola, {userName} </Nav.Link>
+                        ) : (
+                            <h1></h1>
+                        )}
                         <Nav.Link as={Link} to="">
                             Home
                         </Nav.Link>
                         <Nav.Link as={Link} to="ListCard">
                             Catalogue
                         </Nav.Link>
-                        <Nav.Link as={Link} to="Login_B">
-                            Login
-                        </Nav.Link>
+                        {userName ? ( // Verifica si hay un nombre de usuario
+                            <Nav.Link as={Link} to="Login_B">
+                                Logout
+                            </Nav.Link>
+                        ) : (
+                            <Nav.Link as={Link} to="Login_B">
+                                Login
+                            </Nav.Link>
+                        )}
 
                         <Nav.Item className="ml-auto">
                             <Nav.Link as={Link} to="Cart">

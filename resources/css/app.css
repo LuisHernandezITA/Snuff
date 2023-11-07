@@ -111,3 +111,56 @@ border-bottom-right-radius: 16px;
   color: red;
   font-size: 12px; /* Tamaño de fuente personalizado */
 }
+
+/*NOTI*/
+
+.notification {
+  position: fixed;
+  top: -100px; /* Inicialmente, coloca la notificación fuera de la pantalla */
+  right: 20px;
+  background-color: white;
+  color: #0e0d0d;
+  padding: 10px;
+  border-radius: 4px;
+  z-index: 9999;
+  transition: top 0.4s, opacity 0.1s; /* Agrega 's' después de los valores de tiempo para especificar segundos */
+}
+
+.notification.show {
+  top: 20px;
+  display: block;
+}
+
+.notification.hide {
+  top: -100px;
+  display: none;
+}
+
+.notification-bar {
+  height: 4px;
+  background-color: #007bff; /* Color de la barra de tiempo */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Agrega una clase para animar la barra de tiempo */
+.notification-bar-progress {
+  animation: progress 5s linear;
+}
+
+@keyframes progress {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+/*NAV TEXT*/
+
+.small-text {
+  font-size: 8px; /* Ajusta el valor según tu preferencia */
+}

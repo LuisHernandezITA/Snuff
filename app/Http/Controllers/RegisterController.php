@@ -31,7 +31,11 @@ class RegisterController extends ResponseController
                             ->accessToken;
         $success['name'] = $user->name;
 
-        return redirect('/Login_B')->with('success', 'Registro exitoso');
+        return response()->json([
+            'success' => true,
+            'message' => 'User registered successfully.',
+            'user' => $success
+        ]);
 
         /*return $this->sendResponse($success,
             'User register succesfully.');*/
@@ -39,20 +43,19 @@ class RegisterController extends ResponseController
 
     public function login(Request $request)
     {
-        if(Auth::attempt(['email' => $request->email, 
-        'password' => $request->password])){
-            $user = Auth::user();
-            $success['token'] = $user->createToken('MyApp')->accessToken;
-            $success['name'] =
-            $user->name;
-
-            return $this->sendResponse($success,
-            'User login successfully.');
-        }
-        else{
-            return redirect('/Login_B');
-            /*return $this->sendError('Unauthorised.',
-            ['error'=>'Unauthorised']);*/
-        }
+    if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        $user = Auth::user();
+        $success['token'] = $user->createToken('MyApp')->accessToken;
+        $success['name'] = $user->name;
+        
+        // Devuelve la información del usuario como respuesta JSON
+        return response()->json([
+            'success' => true,
+            'message' => 'User login successfully.',
+            'user' => $success
+        ]);
+    } else {
+        return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
     }
+}
 }

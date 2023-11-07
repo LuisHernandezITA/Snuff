@@ -18,12 +18,12 @@ import Main from "./components/Main";
 import { BrowserRouter } from "react-router-dom";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import MyPopup from "./components/MyPopup";
+import { UserProvider } from "./components/UserContext";
 
 ReactDOM.createRoot(document.getElementById("app")).render(
-    <BrowserRouter>
-        <Main />
-    </BrowserRouter>
+    <UserProvider>
+        <BrowserRouter>
+            <Main />
+        </BrowserRouter>
+    </UserProvider>
 );
-
-ReactDOM.render(<MyPopup />, document.getElementById("app"));

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     MDBContainer,
     MDBTabs,
@@ -12,8 +12,35 @@ import {
     MDBCheckbox,
 } from "mdb-react-ui-kit";
 import "/resources/css/app.css";
+import { useUser } from "./UserContext";
 
 function Login_B() {
+    //NOTIFICATIONS
+
+    const [notification, setNotification] = useState(null);
+    const [notificationVisible, setNotificationVisible] = useState(false);
+
+    useEffect(() => {
+        if (notificationVisible) {
+            // Inicia la animación de la barra de tiempo
+            const progressBar = document.querySelector(".notification-bar");
+            progressBar.classList.add("notification-bar-progress");
+
+            // Oculta la notificación y redirige después de 5 segundos
+            setTimeout(() => {
+                setNotificationVisible(false);
+                // Redirige después de 0.5 segundos (para dar tiempo a la animación de la barra)
+            }, 5000); // Oculta la notificación después de 5 segundos
+        }
+    }, [notificationVisible]);
+
+    const showNotification = (message) => {
+        setNotification(message);
+        setNotificationVisible(true);
+    };
+
+    //TABS
+
     const [justifyActive, setJustifyActive] = useState("tab1");
 
     const handleJustifyClick = (value) => {
@@ -23,6 +50,8 @@ function Login_B() {
 
         setJustifyActive(value);
     };
+
+    //VALIDATIONS
 
     const [formData, setFormData] = useState({
         name: "",
@@ -72,11 +101,75 @@ function Login_B() {
         Object.values(errors).every((error) => error === "") &&
         Object.values(formData).every((value) => value.trim() !== "");
 
-    const handleSubmit = (e) => {
+    //LOGIN
+
+    const { setUserName } = useUser();
+
+    const handleLogin = async (e) => {
         e.preventDefault();
 
-        // Aquí puedes enviar los datos del formulario al servidor
-        console.log(formData);
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const user = data.user;
+                setUserName(user.name);
+
+                showNotification("Successfull User Login");
+            } else {
+                showNotification(
+                    "Error de inicio de sesión. Verifica tus datos."
+                );
+                setTimeout(() => {
+                    window.location.href = "/Login_B";
+                }, 5000);
+            }
+        } catch (error) {
+            showNotification("Error de Red.");
+            setTimeout(() => {
+                window.location.href = "/Login_B";
+            }, 5000);
+        }
+    };
+
+    //REGISTER
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch("/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                showNotification("User registered successfully");
+                setTimeout(() => {
+                    window.location.href = "/Login_B";
+                }, 5000);
+            } else {
+                showNotification("Error de registro. Verifica tus datos.");
+                setTimeout(() => {
+                    window.location.href = "/Login_B";
+                }, 5000);
+            }
+        } catch (error) {
+            showNotification("Error de Red.");
+            setTimeout(() => {
+                window.location.href = "/Login_B";
+            }, 5000);
+        }
     };
 
     return (
@@ -106,7 +199,7 @@ function Login_B() {
 
             <MDBTabsContent>
                 <MDBTabsPane show={justifyActive === "tab1"}>
-                    <form action="api/login" method="post">
+                    <form onSubmit={handleLogin}>
                         {errors.email && (
                             <p className="error-text">{errors.email}</p>
                         )}
@@ -122,7 +215,6 @@ function Login_B() {
                         {errors.password && (
                             <p className="error-text">{errors.password}</p>
                         )}
-
                         <MDBInput
                             wrapperClass="mb-4"
                             label="Password"
@@ -147,6 +239,7 @@ function Login_B() {
                             class={`custom-button`}
                             size="lg"
                             className="mb-4 w-100"
+                            type="submit"
                         >
                             Sign in
                         </MDBBtn>
@@ -164,7 +257,7 @@ function Login_B() {
                 </MDBTabsPane>
 
                 <MDBTabsPane show={justifyActive === "tab2"}>
-                    <form action="api/register" method="post">
+                    <form onSubmit={handleRegister}>
                         {errors.name && (
                             <p className="error-text">{errors.name}</p>
                         )}
@@ -227,6 +320,16 @@ function Login_B() {
                     </form>
                 </MDBTabsPane>
             </MDBTabsContent>
+            {notification && (
+                <div
+                    className={`notification ${
+                        notificationVisible ? "show" : ""
+                    }`}
+                >
+                    {notification}
+                    <div className="notification-bar"></div>
+                </div>
+            )}
         </MDBContainer>
     );
 }
