@@ -58,6 +58,7 @@
   background: transparent; /* Mantener el fondo transparente cuando el botón está desactivado después de hacer clic */
   border: 2px solid rgb(126, 124, 124); /* Mantener los bordes negros cuando el botón está desactivado después de hacer clic */
   pointer-events: none; /* Evitar clics adicionales en el botón desactivado */
+  color:rgb(126, 124, 124);
 }
 
 .custom-button:disabled {
@@ -67,6 +68,17 @@
   color:rgb(126, 124, 124);
 }
 
+/*ICONS*/
+
+.icon {
+  font-size: 1em; /* Tamaño inicial del ícono */
+  transition: font-size 0.3s ease ; /* Transición suave del tamaño del ícono durante 0.3 segundos */
+}
+
+.nav-link:hover .icon {
+  font-size: 1.2em; /* Aumenta el tamaño del ícono en el estado hover */
+  color: red;
+}
 
 /*Cart*/
 
@@ -123,31 +135,31 @@ border-bottom-right-radius: 16px;
   padding: 10px;
   border-radius: 4px;
   z-index: 9999;
-  transition: top 0.4s, opacity 0.1s; /* Agrega 's' después de los valores de tiempo para especificar segundos */
+  transition: top 0.8s, opacity 0.8s; /* Agrega 's' después de los valores de tiempo para especificar segundos */
 }
 
 .notification.show {
-  top: 20px;
+  top: 20px; /* Muestra la notificación moviéndola hacia abajo desde la parte superior */
   display: block;
 }
 
 .notification.hide {
-  top: -100px;
+  top: -100px; /* Oculta la notificación moviéndola hacia arriba fuera de la pantalla */
   display: none;
 }
 
 .notification-bar {
   height: 4px;
-  background-color: #007bff; /* Color de la barra de tiempo */
+  background-color: #171718; /* Color de la barra de tiempo */
   position: absolute;
-  bottom: 0;
+  bottom: 3px;
   left: 0;
   width: 100%;
 }
 
 /* Agrega una clase para animar la barra de tiempo */
 .notification-bar-progress {
-  animation: progress 5s linear;
+  animation: progress 1.5s linear;
 }
 
 @keyframes progress {
@@ -159,12 +171,27 @@ border-bottom-right-radius: 16px;
   }
 }
 
-/*NAV TEXT*/
-
-.small-text {
-  font-size: 8px; /* Ajusta el valor según tu preferencia */
+/* menuStyles.css */
+.labelnew {
+  color: black;
+  padding: 60px;
+  font-size: 24px; /* Ajusta el tamaño de fuente según tu preferencia */
 }
 
+/* menuStyles.css */
+.ver-todo-link {
+  display: block;
+  margin-top: 20px; /* Ajusta la separación desde la parte superior según tu preferencia */
+  text-decoration: none;
+  color: rgb(34, 34, 36); /* Cambia el color del enlace según tus preferencias */
+  font-size: 14px;
+
+}
+
+.ver-todo-link:hover {
+  text-decoration: underline;
+  color: darkblue; /* Cambia el color cuando el cursor está sobre el enlace */
+}
 
 /*PRODUCT DESCRIPTION*/
 

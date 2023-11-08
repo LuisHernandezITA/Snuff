@@ -47,6 +47,7 @@ class RegisterController extends ResponseController
         $user = Auth::user();
         $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
+
         
         // Devuelve la información del usuario como respuesta JSON
         return response()->json([

@@ -14,14 +14,24 @@ class ProductsController extends Controller
         return $products;
     }
 
-    public function show(Request $request)
+    public function newest()
 {
-    $product = Products::where('id', $request->id) -> get();
+    $products = DB::table('products')
+    ->orderBy('id', 'desc') // Ordenar por el campo 'id' en orden descendente.
+    ->take(6) // Limitar los resultados a los últimos 6 registros.
+    ->get();
 
-if ($product) {
-    return $product;
-} else {
-    return response()->json(['message' => 'Producto no encontrado'], 404);
+    return $products;
 }
-}
+
+    public function show(Request $request)
+    {
+        $product = Products::where('id', $request->id) -> get();
+
+        if ($product) {
+            return $product;
+        } else {
+            return response()->json(['message' => 'Producto no encontrado'], 404);
+        }
+    }
 }

@@ -12,7 +12,6 @@ import {
     MDBCheckbox,
 } from "mdb-react-ui-kit";
 import "/resources/css/app.css";
-import { useUser } from "./UserContext";
 
 function Login_B() {
     //NOTIFICATIONS
@@ -22,15 +21,12 @@ function Login_B() {
 
     useEffect(() => {
         if (notificationVisible) {
-            // Inicia la animación de la barra de tiempo
             const progressBar = document.querySelector(".notification-bar");
             progressBar.classList.add("notification-bar-progress");
 
-            // Oculta la notificación y redirige después de 5 segundos
             setTimeout(() => {
                 setNotificationVisible(false);
-                // Redirige después de 0.5 segundos (para dar tiempo a la animación de la barra)
-            }, 5000); // Oculta la notificación después de 5 segundos
+            }, 1500);
         }
     }, [notificationVisible]);
 
@@ -101,9 +97,14 @@ function Login_B() {
         Object.values(errors).every((error) => error === "") &&
         Object.values(formData).every((value) => value.trim() !== "");
 
-    //LOGIN
+    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
-    const { setUserName } = useUser();
+    const handleButtonClick = () => {
+        // Realiza las acciones que desees cuando se hace clic en el botón
+        // Luego, deshabilita el botón
+        setIsButtonEnabled(false);
+    };
+    //LOGIN
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -118,24 +119,23 @@ function Login_B() {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                const user = data.user;
-                setUserName(user.name);
-
                 showNotification("Successfull User Login");
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 1500);
             } else {
                 showNotification(
                     "Error de inicio de sesión. Verifica tus datos."
                 );
                 setTimeout(() => {
                     window.location.href = "/Login_B";
-                }, 5000);
+                }, 1500);
             }
         } catch (error) {
             showNotification("Error de Red.");
             setTimeout(() => {
                 window.location.href = "/Login_B";
-            }, 5000);
+            }, 1500);
         }
     };
 
@@ -157,18 +157,18 @@ function Login_B() {
                 showNotification("User registered successfully");
                 setTimeout(() => {
                     window.location.href = "/Login_B";
-                }, 5000);
+                }, 1500);
             } else {
                 showNotification("Error de registro. Verifica tus datos.");
                 setTimeout(() => {
                     window.location.href = "/Login_B";
-                }, 5000);
+                }, 1500);
             }
         } catch (error) {
             showNotification("Error de Red.");
             setTimeout(() => {
                 window.location.href = "/Login_B";
-            }, 5000);
+            }, 1500);
         }
     };
 
@@ -236,10 +236,14 @@ function Login_B() {
                         </div>
 
                         <MDBBtn
-                            class={`custom-button`}
+                            class={`custom-button ${
+                                !isButtonEnabled ? "clicked" : ""
+                            }`}
                             size="lg"
                             className="mb-4 w-100"
                             type="submit"
+                            disabled={!isButtonEnabled} // Deshabilita el botón si isButtonEnabled es falso
+                            onClick={handleButtonClick}
                         >
                             Sign in
                         </MDBBtn>

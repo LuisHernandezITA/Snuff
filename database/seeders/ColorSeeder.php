@@ -14,11 +14,11 @@ class ColorSeeder extends Seeder
     public function run(): void
     {
         $color = new Color();
-        $color->name = "Dark";
+        $color->name = "Black";
         $color->save();
         
         $color = new Color();
-        $color->name = "Light";
+        $color->name = "White";
         $color->save();
 
         $color = new Color();
