@@ -4,10 +4,9 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function Product() {
-    //PRODUCT DETAILS
-
     const { id } = useParams();
     const [product, setProduct] = useState(null);
+    const [colors, setColors] = useState([]);
 
     useEffect(() => {
         const getProductDetails = async () => {
@@ -23,7 +22,26 @@ function Product() {
             }
         };
 
-        getProductDetails();
+        const getColors = async () => {
+            try {
+              const response = await axios.post('http://localhost:8000/api/getProductColors', { id });
+              if (response.data.length > 0) {
+                setColors(response.data);
+              } else {
+                setColors(null);
+              }
+            } catch (error) {
+              console.error(error);
+              setColors(null);
+            }
+          };
+
+        if (id) {
+            getProductDetails();
+            getColors();
+        }
+        console.log(product);
+        console.log(colors);
     }, [id]);
 
     if (!product) {
@@ -37,7 +55,6 @@ function Product() {
     }
 
 
-    
     return (
         <div className="app">
             <div className="details">
@@ -46,18 +63,35 @@ function Product() {
                 </div>
                 <div className="box">
                     <div className="row">
-                    <h2>{product.name}</h2>
+                        <h2>{product.name}</h2>
                         <span>Precio: ${product.price}</span>
                     </div>                    
                     <p>{product.description}</p>
+
+                    {colors ? ( // Verifica si hay un nombre de usuario
+                    <div>
                     <div className="row">
-                        <h2>Colores</h2>
+                        <h2>Colors</h2>
                     </div>
                     <div className="colors">
-                        <button className="color" style={{ backgroundColor: "red" }}></button>
-                        <button className="color" style={{ backgroundColor: "blue" }}></button>
-                        {/* Agrega más colores según sea necesario */}
+                    
+                        {colors.map((colorId, index) => (
+                            <button
+                            className="color"
+                            style={{
+                              width: 30,
+                              height: 30,
+                              backgroundColor: colorId,
+                            }}
+                          >
+                          </button>                          
+                        ))}
                     </div>
+                    </div>
+                            ) : (
+                                <h1></h1>
+                            )
+                    }
                     <div className="row">
                         <h2>Tallas</h2>
                     </div>
@@ -79,4 +113,5 @@ function Product() {
     );
 }
 
+  
 export default Product;

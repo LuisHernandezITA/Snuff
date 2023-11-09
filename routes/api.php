@@ -31,7 +31,6 @@ Route::post('/products_show', [ProductsController::class, 'show']);
 Route::get('/accesstokens_index', [AccessTokensController::class, 'index']);
 Route::delete('/accesstokens/destroy', [AccessTokensController::class, 'destroy']);
 Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
-Route::post('/getColorsByIds', [ProductColorsController::class, 'getColorsByIds']);
 
 
 Route::middleware('auth:api')->get('/index', 'app\Http\Controllers\UserController@index');
