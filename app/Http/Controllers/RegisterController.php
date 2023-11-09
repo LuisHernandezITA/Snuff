@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,7 +45,7 @@ class RegisterController extends ResponseController
     {
     if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
         $user = Auth::user();
-        $success['token'] = $user->createToken('MyApp')->accessToken;
+        $success = $request->user()->createToken('token')->plainTextToken;
         $success['name'] = $user->name;
 
         
