@@ -45,7 +45,7 @@ class RegisterController extends ResponseController
     {
     if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
         $user = Auth::user();
-        $success = $request->user()->createToken('token')->plainTextToken;
+        $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
 
         
