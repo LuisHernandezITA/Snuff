@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\AccessTokensController;
 use App\Http\Controllers\ProductColorsController;
-use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ProductSizesController;
 
 
 /*
@@ -31,7 +31,7 @@ Route::post('/products_show', [ProductsController::class, 'show']);
 Route::get('/accesstokens_index', [AccessTokensController::class, 'index']);
 Route::delete('/accesstokens/destroy', [AccessTokensController::class, 'destroy']);
 Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
-
+Route::post('/getProductSizes', [ProductSizesController::class, 'getProductSizes']);
 
 Route::middleware('auth:api')->get('/index', 'app\Http\Controllers\UserController@index');
 

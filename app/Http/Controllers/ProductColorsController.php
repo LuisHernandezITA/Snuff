@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Color;
 use App\Models\ProductColors;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProductColorsController extends Controller
     {
