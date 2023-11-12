@@ -15,7 +15,9 @@ function ListCard() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/api/products_index");
+                const response = await axios.get(
+                    "http://localhost:8000/api/products_index"
+                );
                 setProductData(response.data);
             } catch (error) {
                 console.log(error);
@@ -24,7 +26,9 @@ function ListCard() {
 
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/api/category_index");
+                const response = await axios.get(
+                    "http://localhost:8000/api/category_index"
+                );
                 setCategories(response.data);
             } catch (error) {
                 console.log(error);
@@ -40,7 +44,7 @@ function ListCard() {
     };
 
     const handleSortByPrice = () => {
-        setSortByPrice((prevSort) => (prevSort === 'asc' ? 'desc' : 'asc'));
+        setSortByPrice((prevSort) => (prevSort === "asc" ? "desc" : "asc"));
     };
 
     const getFilteredProducts = () => {
@@ -48,13 +52,19 @@ function ListCard() {
         if (selectedCategory === null) {
             filteredProducts = [...productData];
         } else {
-            filteredProducts = productData.filter((product) => product.category_id === selectedCategory);
+            filteredProducts = productData.filter(
+                (product) => product.category_id === selectedCategory
+            );
         }
 
-        if (sortByPrice === 'asc') {
-            return filteredProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-        } else if (sortByPrice === 'desc') {
-            return filteredProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+        if (sortByPrice === "asc") {
+            return filteredProducts.sort(
+                (a, b) => parseFloat(a.price) - parseFloat(b.price)
+            );
+        } else if (sortByPrice === "desc") {
+            return filteredProducts.sort(
+                (a, b) => parseFloat(b.price) - parseFloat(a.price)
+            );
         } else {
             return filteredProducts;
         }
@@ -77,14 +87,22 @@ function ListCard() {
 
     return (
         <div>
+            <br></br>
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand>Categories</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link onClick={() => handleCategoryChange(null)}>All</Nav.Link>
+                        <Nav.Link onClick={() => handleCategoryChange(null)}>
+                            All
+                        </Nav.Link>
                         {categories.map((category) => (
-                            <Nav.Link key={category.id} onClick={() => handleCategoryChange(category.id)}>
+                            <Nav.Link
+                                key={category.id}
+                                onClick={() =>
+                                    handleCategoryChange(category.id)
+                                }
+                            >
                                 {category.name}
                             </Nav.Link>
                         ))}
@@ -92,7 +110,7 @@ function ListCard() {
                 </Navbar.Collapse>
                 <Nav className="ml-auto">
                     <Nav.Link onClick={handleSortByPrice}>
-                        Sort by Price{" "}
+                        Sort by Price{"  "}
                         {sortByPrice === "asc" ? (
                             <FontAwesomeIcon icon={faArrowDown} />
                         ) : (
@@ -110,13 +128,17 @@ function ListCard() {
                         style={{ margin: "20px 0" }}
                     >
                         {group.map((product) => (
-                            <div key={product.id} style={{ margin: "40px 35px" }}>
+                            <div
+                                key={product.id}
+                                style={{ margin: "40px 35px" }}
+                            >
                                 <Card_C
                                     id={product.id}
                                     name={product.name}
                                     description={product.description}
                                     price={product.price}
                                     images={product.images}
+                                    available={product.available}
                                 />
                             </div>
                         ))}

@@ -174,7 +174,7 @@ border-bottom-right-radius: 16px;
 /* menuStyles.css */
 .labelnew {
   color: black;
-  padding: 60px;
+  padding: 30px 0px 0px 80px;
   font-size: 24px; /* Ajusta el tamaño de fuente según tu preferencia */
 }
 
@@ -198,20 +198,21 @@ border-bottom-right-radius: 16px;
 .app{
   max-width: 1200px;
   width: 100%;
-  margin: 100px auto;
+  margin: 40px auto;
   box-shadow: 0 0 5px #ccc;
 }
 .details{
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  padding: 30px 0;
+  padding: 40px 0px 0px 0px;
 }
 .details .big-img{
-  max-width: 500px;
-  min-width: 290px;
+  max-width: 700px;
+  min-width: 400px;
   overflow: hidden;
   margin: 25px;
+  padding: 0px 0px 0px 20px;
 }
 .big-img img{
   width: 100%;
@@ -281,6 +282,25 @@ border-bottom-right-radius: 16px;
   margin-top: 15px;
 }
 
+.color-button-detail,
+.size-button-detail {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  transition: all 0.2s ease; /* Transición suave para el hover */
+}
+
+.color-button-detail:hover,
+.size-button-detail:hover {
+  transform: scale(1.2); /* Aumenta el tamaño en el hover */
+  opacity: 0.3; /* Hace que los colores/tamaños no seleccionados sean opacos */
+}
+
+.color-button-detail.selected,
+.size-button-detail.selected {
+  opacity: 1; /* Hace que los colores/tamaños seleccionados sean normales */
+}
+
 @media (max-width: 500px){
   .thumb{
     height: 50px;
@@ -308,5 +328,28 @@ border-bottom-right-radius: 16px;
 .desc::after {
   content: '↓';
   font-size: 1.2em;
+}
+
+/*SOLD OUT*/
+
+.sold-out-badge {
+  position: absolute;
+  top: 120px; /* Ajusta la posición superior según sea necesario */
+  right: 0px; /* Ajusta la posición izquierda según sea necesario */
+  z-index: 1;
+  padding: 20px;
+  background-color: rgb(194, 23, 23);
+  color: rgb(245, 239, 239);
+  font-weight: bold;
+  border-radius: 6px 0px 0px 6px;
+}
+
+.my-card-img-container {
+  position: relative; /* Asegura que la posición absoluta sea relativa a este contenedor */
+}
+
+.my-card-img.sold-out {
+  /* Puedes aplicar estilos adicionales para resaltar que el producto está agotado */
+  opacity: 0.7;
 }
 

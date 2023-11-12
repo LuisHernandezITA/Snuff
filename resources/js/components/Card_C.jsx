@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Card, Badge } from "react-bootstrap";
 import "/resources/css/app.css";
 import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
@@ -10,11 +10,33 @@ function Card_C(props) {
     const price = props.price;
     const description = props.description;
     const images = props.images;
+    const available = props.available;
+
+    //NOTIFICATIONS
+
+    const [notification, setNotification] = useState(null);
+    const [notificationVisible, setNotificationVisible] = useState(false);
+
+    useEffect(() => {
+        if (notificationVisible) {
+            const progressBar = document.querySelector(".notification-bar");
+            progressBar.classList.add("notification-bar-progress");
+
+            setTimeout(() => {
+                setNotificationVisible(false);
+            }, 1500);
+        }
+    }, [notificationVisible]);
+
+    const showNotification = (message) => {
+        setNotification(message);
+        setNotificationVisible(true);
+    };
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleButtonClick = () => {
-        // Realiza aquí cualquier lógica adicional, por ejemplo, agregar al carrito
+        showNotification("Product added to Cart!");
         setIsButtonDisabled(true); // Desactiva el botón al hacer clic
     };
 
@@ -22,10 +44,15 @@ function Card_C(props) {
         <Card className="my-card">
             <Link to={`/Product/${id}`}>
                 <div className="my-card-img-container">
+                    {!available && (
+                        <div className="sold-out-badge">SOLD OUT</div>
+                    )}
                     <Card.Img
                         src={images}
                         alt="Card Image"
-                        className="my-card-img"
+                        className={`my-card-img ${
+                            !available ? "sold-out" : ""
+                        }`}
                     />
                 </div>
             </Link>
@@ -36,11 +63,13 @@ function Card_C(props) {
                 </Card.Subtitle>
                 <Card.Text>{price}</Card.Text>
                 <MDBBtn
-                    class={`custom-button ${isButtonDisabled ? "clicked" : ""}`}
+                    class={`custom-button ${
+                        isButtonDisabled || !available ? "clicked" : ""
+                    }`}
                     block
                     size="lg"
                     onClick={handleButtonClick}
-                    disabled={isButtonDisabled}
+                    disabled={isButtonDisabled || !available}
                 >
                     <MDBIcon fas icon="shopping-cart" />{" "}
                     {/* Icono del carrito */}
@@ -48,6 +77,17 @@ function Card_C(props) {
                     {/* Texto del botón si no está deshabilitado */}
                 </MDBBtn>
             </Card.Body>
+
+            {notification && (
+                <div
+                    className={`notification ${
+                        notificationVisible ? "show" : ""
+                    }`}
+                >
+                    {notification}
+                    <div className="notification-bar"></div>
+                </div>
+            )}
         </Card>
     );
 }
