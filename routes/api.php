@@ -34,11 +34,14 @@ Route::get('/products_newest', [ProductsController::class, 'newest']);
 Route::post('/products_show', [ProductsController::class, 'show']);
 Route::get('/accesstokens_index', [AccessTokensController::class, 'index']);
 Route::delete('/accesstokens/destroy', [AccessTokensController::class, 'destroy']);
+
 Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
 Route::post('/getProductSizes', [ProductSizesController::class, 'getProductSizes']);
 Route::post('/products_store', [ProductsController::class, 'store']); // Ruta para crear un producto
 Route::put('/products_update/{id}', [ProductsController::class, 'update']); // Ruta para actualizar un producto
 Route::delete('/products_destroy/{id}', [ProductsController::class, 'destroy']);
+Route::get('/products/{id}/edit', [ProductsController::class, 'edit']);
+
 Route::get('/category_index', [CategoryController::class, 'index']);
 Route::get('/color_index', [ColorController::class, 'index']);
 Route::get('/size_index', [SizeController::class, 'index']);

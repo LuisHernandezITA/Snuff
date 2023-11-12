@@ -272,6 +272,17 @@ function Crud() {
     const [isButtonAddEnabled, setIsButtonAddEnabled] = useState(true);
 
     const handleButtonAddClick = () => {
+        setFormData({
+            name: "",
+            description: "",
+            category_id: "",
+            price: "",
+            available_stock: "",
+            images: "",
+            available: false,
+            // Añade otros campos según sea necesario
+        });
+        setEditMode(false);
         setIsButtonAddEnabled(false);
         setShowAddForm(true);
     };
@@ -346,6 +357,7 @@ function Crud() {
 
             // Puedes ajustar el mensaje de éxito y las acciones adicionales aquí
             showNotification("Product added successfully");
+
             setShowAddForm(false);
             setIsButtonAddEnabled(true);
         } catch (error) {
@@ -354,10 +366,108 @@ function Crud() {
         }
     };
 
-    const handleEdit = (id) => {
-        // Aquí debes implementar la lógica para editar un producto usando Axios y la ruta correspondiente
-        // Debes proporcionar la funcionalidad para abrir un formulario de edición y enviar los datos actualizados.
+    // EDIT
+
+    const [editMode, setEditMode] = useState(false);
+    const [productIdUpdate, setProductIdUpdate] = useState(null);
+
+    const handleEdit = async (id) => {
+        try {
+            const response = await axios.get(`/api/products/${id}/edit`);
+            const productData = response.data;
+
+            // Rellenar el formulario con los datos del producto
+            setFormData({
+                name: productData.name,
+                description: productData.description,
+                category_id: productData.category_id,
+                price: productData.price,
+                available_stock: productData.available_stock,
+                images: productData.images,
+                available: productData.available,
+            });
+            setProductIdUpdate(id);
+            setEditMode(true);
+            // Mostrar el modal de edición
+            setShowAddForm(true);
+        } catch (error) {
+            console.error("Error al cargar los datos del producto", error);
+        }
     };
+
+    const handleUpdateProduct = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Realiza la solicitud para actualizar el producto
+            const response = await fetch(
+                `/api/products_update/${productIdUpdate}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Error updating product. Check your data.");
+            }
+
+            // Elimina las relaciones existentes de ProductColors asociadas al producto
+            try {
+                await axios.delete(
+                    `api/productcolors_destroy/${productIdUpdate}`
+                );
+            } catch (error) {
+                console.error("Error deleting product colors", error);
+            }
+
+            // Crea nuevas relaciones de ProductColors según los colores seleccionados
+            try {
+                if (selectedColors.length > 0) {
+                    await axios.post("api/productcolors_store", {
+                        product_id: productIdUpdate,
+                        color_ids: selectedColors,
+                    });
+                }
+            } catch (error) {
+                console.error("Error adding product colors", error);
+            }
+
+            // Elimina las relaciones existentes de ProductSizes asociadas al producto
+            try {
+                await axios.delete(
+                    `api/productsizes_destroy/${productIdUpdate}`
+                );
+            } catch (error) {
+                console.error("Error deleting product sizes", error);
+            }
+
+            // Crea nuevas relaciones de ProductSizes según las tallas seleccionadas
+            try {
+                if (sizeFormData.sizes.length > 0) {
+                    await axios.post("api/productsizes_store", {
+                        product_id: productIdUpdate,
+                        size_ids: sizeFormData.sizes,
+                    });
+                }
+            } catch (error) {
+                console.error("Error adding product sizes", error);
+            }
+
+            // Puedes ajustar el mensaje de éxito y las acciones adicionales aquí
+            showNotification("Product Updated successfully");
+            setEditMode(false);
+            setShowAddForm(false);
+        } catch (error) {
+            // Puedes ajustar el mensaje de error y las acciones adicionales aquí
+            showNotification(error.message || "Network error.");
+        }
+    };
+
+    // DELETE
 
     const handleDelete = async (productId) => {
         try {
@@ -478,7 +588,10 @@ function Crud() {
                                     className="mb-4 w-100"
                                     type="submit"
                                     disabled={!isButtonEnabled}
-                                    onClick={() => handleEdit(product.id)}
+                                    onClick={() => {
+                                        handleButtonClick();
+                                        handleEdit(product.id);
+                                    }}
                                 >
                                     EDIT
                                 </MDBBtn>
@@ -503,15 +616,19 @@ function Crud() {
                 </MDBTableBody>
             </MDBTable>
 
-            {/* Modal para el formulario de agregar producto */}
+            {/* Modal para el formulario de agregar y modificar producto */}
             <Modal
                 show={showAddForm}
                 onHide={() => {
                     setShowAddForm(false);
-                    setIsButtonAddEnabled(true); // Habilita nuevamente el botón si se cierra el formulario
+                    setIsButtonAddEnabled(true);
+                    setIsButtonEnabled(true);
+                    // Habilita nuevamente el botón si se cierra el formulario
                 }}
             >
-                <Modal.Header className="bg-warning"></Modal.Header>
+                <Modal.Header
+                    className={editMode ? "bg-primary" : "bg-warning"}
+                ></Modal.Header>
                 <Modal.Body>
                     <img
                         src="\img\logosmc.svg" // Reemplaza esto con la ruta correcta de tu imagen
@@ -525,7 +642,11 @@ function Crud() {
                         }}
                     />
                     {/* Formulario para agregar producto */}
-                    <form onSubmit={handleAddProduct}>
+                    <form
+                        onSubmit={
+                            editMode ? handleUpdateProduct : handleAddProduct
+                        }
+                    >
                         {errors.name && (
                             <p className="error-text">{errors.name}</p>
                         )}
@@ -597,7 +718,7 @@ function Crud() {
                             className="form-control"
                             id="category"
                             name="category"
-                            value={formData.category}
+                            value={formData.category_id}
                             onChange={handleChange}
                         >
                             <option value="" hidden>
@@ -669,18 +790,31 @@ function Crud() {
                         />
                         <br></br>
 
-                        <MDBBtn
-                            class={`custom-button`}
-                            size="lg"
-                            className="mb-4 w-100"
-                            type="submit"
-                            disabled={!isFormValid}
-                        >
-                            ADD PRODUCT
-                        </MDBBtn>
+                        {editMode ? (
+                            <MDBBtn
+                                class={`custom-button`}
+                                size="lg"
+                                className="mb-4 w-100"
+                                type="submit"
+                                disabled={!isFormValid}
+                            >
+                                UPDATE PRODUCT
+                            </MDBBtn>
+                        ) : (
+                            <MDBBtn
+                                class={`custom-button`}
+                                size="lg"
+                                className="mb-4 w-100"
+                                type="submit"
+                                disabled={!isFormValid}
+                            >
+                                ADD PRODUCT
+                            </MDBBtn>
+                        )}
                     </form>
                 </Modal.Body>
             </Modal>
+
             {notification && (
                 <div
                     className={`notification ${

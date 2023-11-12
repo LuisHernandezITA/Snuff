@@ -54,6 +54,17 @@ class ProductsController extends Controller
         return $products;
     }
 
+    public function edit(Request $request)
+{
+    $product = Products::find($request->id);
+
+    if ($product) {
+        return $product;
+    } else {
+        return response()->json(['message' => 'Producto no encontrado'], 404);
+    }
+}
+
     public function update(Request $request, $id)
     {
         $product = Products::find($id);
