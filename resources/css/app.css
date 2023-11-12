@@ -289,3 +289,24 @@ border-bottom-right-radius: 16px;
     width: 50px;
   }
 }
+
+
+/*ARROW*/
+
+.arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 5px; /* Ajusta el espacio entre el texto y la flecha según tus preferencias */
+}
+
+.asc::after {
+  content: '↑';
+  font-size: 1.2em;
+}
+
+.desc::after {
+  content: '↓';
+  font-size: 1.2em;
+}
+
