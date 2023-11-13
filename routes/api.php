@@ -52,6 +52,7 @@ Route::post('/productsizes_store', [ProductSizesController::class, 'store']);
 Route::delete('/productsizes_destroy/{id}', [ProductSizesController::class, 'destroy']);
 
 Route::post('/addcart/{user_id}', [ShoppingCartController::class, 'addToCart']);
+Route::post('/getProductsInCart', [ShoppingCartController::class, 'getProductsInCart']);
 
 
 Route::middleware('auth:api')->get('/index', 'app\Http\Controllers\UserController@index');
