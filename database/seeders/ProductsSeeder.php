@@ -93,7 +93,7 @@ class ProductsSeeder extends Seeder
         $products = new Products();
         $products->name = "NY Snuff Cap";
         $products->description = "Niu York Cap Mexican Outlet";
-        $products->category_id = 3; // Shirts
+        $products->category_id = 2; // Shirts
         $products->price = 60;
         $products->available_stock = 40;
         $products->images = "https://i.postimg.cc/6pQmZYXz/snu8.jpg";
@@ -104,7 +104,7 @@ class ProductsSeeder extends Seeder
         $products = new Products();
         $products->name = "Shagg Pants MX";
         $products->description = "Comfortable pants Shagg Collection";
-        $products->category_id = 2; // Pants
+        $products->category_id = 3; // Pants
         $products->price = 55;
         $products->available_stock = 60;
         $products->images = "https://i.postimg.cc/v8Wkw4h7/snu7.jpg";
