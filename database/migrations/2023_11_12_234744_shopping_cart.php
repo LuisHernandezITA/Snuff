@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id');
+            $table->unsignedInteger('quantity')->default(1);
             $table->timestamps();
             
             // Define la restricción de clave foránea para relacionar la tabla "shopping_carts" con la tabla "users"
