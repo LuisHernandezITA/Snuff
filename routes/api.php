@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductSizesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\ShoppingCartController;
 
 
 
@@ -50,6 +51,7 @@ Route::delete('/productcolors_destroy/{id}', [ProductColorsController::class, 'd
 Route::post('/productsizes_store', [ProductSizesController::class, 'store']);
 Route::delete('/productsizes_destroy/{id}', [ProductSizesController::class, 'destroy']);
 
+Route::post('/addcart/{user_id}', [ShoppingCartController::class, 'addToCart']);
 
 
 Route::middleware('auth:api')->get('/index', 'app\Http\Controllers\UserController@index');

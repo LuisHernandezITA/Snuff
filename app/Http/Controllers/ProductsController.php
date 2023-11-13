@@ -91,12 +91,16 @@ class ProductsController extends Controller
     {
         $product = Products::find($id);
 
-        if (!$product) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
-        }
+    if (!$product) {
+        return response()->json(['message' => 'Producto no encontrado'], 404);
+    }
 
-        $product->delete();
+    // Eliminar el producto de la tabla 'shopping_cart' también
+    $product->shoppingCart()->delete();
 
-        return response()->json(['message' => 'Producto eliminado correctamente'], 200);
+    // Luego, elimina el producto de la tabla 'products'
+    $product->delete();
+
+    return response()->json(['message' => 'Producto eliminado correctamente'], 200);
     }
 }

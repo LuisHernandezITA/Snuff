@@ -3,6 +3,7 @@ import { Button, Card, Badge } from "react-bootstrap";
 import "/resources/css/app.css";
 import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { useUser } from "./UserContext";
 
 function Card_C(props) {
     const id = props.id;
@@ -11,6 +12,11 @@ function Card_C(props) {
     const description = props.description;
     const images = props.images;
     const available = props.available;
+
+    const { userInfo } = useUser(); // Obtén la información del usuario desde el contexto.
+    const userId = userInfo ? userInfo.id : "";
+
+    console.log(userId);
 
     //NOTIFICATIONS
 
@@ -33,11 +39,43 @@ function Card_C(props) {
         setNotificationVisible(true);
     };
 
+    //ADD TO CART
+
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleButtonClick = () => {
-        showNotification("Product added to Cart!");
-        setIsButtonDisabled(true); // Desactiva el botón al hacer clic
+        // Desactiva el botón al hacer clic
+
+        if (!userId) {
+            showNotification(
+                "You need to sign in to add products to the cart."
+            );
+            setIsButtonDisabled(true);
+            return;
+        }
+
+        // Construye el objeto con la información del producto
+        const productData = {
+            product_id: props.id,
+            name: props.name,
+            price: props.price,
+            description: props.description,
+            images: props.images,
+            available: props.available,
+        };
+
+        // Realiza la solicitud POST para agregar el producto al carrito
+        axios
+            .post(`/api/addcart/${userId}`, productData)
+            .then((response) => {
+                console.log(response.data); // Puedes manejar la respuesta del servidor aquí
+                showNotification("Product added to Cart!");
+            })
+            .catch((error) => {
+                console.error("Error adding product to cart:", error);
+                // Manejar el error aquí
+            });
+        setIsButtonDisabled(true);
     };
 
     return (

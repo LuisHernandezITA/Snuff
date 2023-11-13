@@ -4,6 +4,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 import smallImage from "/public/favicon.ico";
+import { useUser } from "./UserContext";
+import "/resources/css/app.css";
 
 function Product() {
     const { id } = useParams();
@@ -11,10 +13,11 @@ function Product() {
     const [colors, setColors] = useState([]);
     const [sizes, setSizes] = useState([]);
 
+    const { userInfo } = useUser(); // Obtén la información del usuario desde el contexto.
+    const userId = userInfo ? userInfo.id : "";
+
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
-
-    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     //NOTIFICATIONS
 
@@ -37,10 +40,38 @@ function Product() {
         setNotificationVisible(true);
     };
 
+    //ADD TO CART
+
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
     const handleButtonClick = () => {
-        showNotification("Product added to Cart!");
-        // Realiza aquí cualquier lógica adicional, por ejemplo, agregar al carrito
-        setIsButtonDisabled(true); // Desactiva el botón al hacer clic
+        // Verifica si el userId está vacío o es false
+        if (!userId) {
+            setIsButtonDisabled(true);
+            showNotification(
+                "You need to sign in to add products to the cart."
+            );
+            setIsButtonDisabled(false);
+            return;
+        }
+
+        // Construye el objeto con la información del producto
+        const productData = {
+            product_id: product.id,
+        };
+
+        // Realiza la solicitud POST para agregar el producto al carrito
+        axios
+            .post(`/api/addcart/${userId}`, productData)
+            .then((response) => {
+                console.log(response.data); // Puedes manejar la respuesta del servidor aquí
+                showNotification("Product added to Cart!");
+            })
+            .catch((error) => {
+                console.error("Error adding product to cart:", error);
+                // Manejar el error aquí
+            });
+        setIsButtonDisabled(true);
     };
 
     useEffect(() => {
