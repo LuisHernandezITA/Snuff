@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shopping_carts', function (Blueprint $table) {
+        Schema::create('shopping_cart', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->decimal('total_amount', 10, 2);
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
             
             // Define la restricción de clave foránea para relacionar la tabla "shopping_carts" con la tabla "users"
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('shopping_carts');
+        Schema::dropIfExists('shopping_cart');
     }
 };

@@ -22,7 +22,7 @@ class SizeSeeder extends Seeder
         $size->save();
 
         $size = new Size();
-        $size->name = "X";
+        $size->name = "L";
         $size->save();
 
         $size = new Size();

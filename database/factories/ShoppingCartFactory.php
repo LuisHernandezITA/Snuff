@@ -4,11 +4,12 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Models\Products;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ShoppingCarts>
  */
-class ShoppingCartsFactory extends Factory
+class ShoppingCartFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,7 +20,7 @@ class ShoppingCartsFactory extends Factory
     {
         return [
             'user_id' => User::all()->random()->id,
-            'total_amount' => 0,
+            'product_id' => Products::all()->random()->id,
         ];
     }
 }

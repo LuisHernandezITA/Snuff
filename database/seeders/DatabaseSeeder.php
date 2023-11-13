@@ -32,8 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductsSeeder::Class);
         $this->call(ProductSizesSeeder::Class);
         $this->call(ProductColorsSeeder::Class);
-        $this->call(ShoppingCartsSeeder::Class);
-        $this->call(CartItemsSeeder::Class);
+        $this->call(ShoppingCartSeeder::Class);
         User::factory(8)->create();
     }
 }
