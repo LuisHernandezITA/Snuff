@@ -28,7 +28,4 @@ class Products extends Model
         return $this->hasMany(ShoppingCart::class, 'product_id');
     }
 
-    // Define las relaciones con las tablas Category, Size y Color aquí
-
-    // Otras propiedades y relaciones aquí
 }

@@ -18,8 +18,8 @@ class ProductsController extends Controller
     public function newest()
 {
     $products = DB::table('products')
-    ->orderBy('id', 'desc') // Ordenar por el campo 'id' en orden descendente.
-    ->take(6) // Limitar los resultados a los últimos 6 registros.
+    ->orderBy('id', 'desc') // ORDERS DESC
+    ->take(6) // ONLY 6 PRODUCTS
     ->get();
 
     return $products;
@@ -32,7 +32,7 @@ class ProductsController extends Controller
         if ($product) {
             return $product;
         } else {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json(['message' => 'Product not found'], 404);
         }
     }
 
@@ -61,7 +61,7 @@ class ProductsController extends Controller
     if ($product) {
         return $product;
     } else {
-        return response()->json(['message' => 'Producto no encontrado'], 404);
+        return response()->json(['message' => 'Product not found'], 404);
     }
 }
 
@@ -70,7 +70,7 @@ class ProductsController extends Controller
         $product = Products::find($id);
 
         if (!$product) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json(['message' => 'Product not found'], 404);
         }
 
         $product->name = $request->input('name');
@@ -84,7 +84,7 @@ class ProductsController extends Controller
 
         $product->save();
 
-        return response()->json(['message' => 'Producto actualizado correctamente'], 200);
+        return response()->json(['message' => 'Succesfully updated product'], 200);
     }
 
     public function destroy($id)
@@ -92,15 +92,14 @@ class ProductsController extends Controller
         $product = Products::find($id);
 
     if (!$product) {
-        return response()->json(['message' => 'Producto no encontrado'], 404);
+        return response()->json(['message' => 'Product not found'], 404);
     }
 
-    // Eliminar el producto de la tabla 'shopping_cart' también
+    // DELETES IN SHOPPING CART TOO
     $product->shoppingCart()->delete();
 
-    // Luego, elimina el producto de la tabla 'products'
     $product->delete();
 
-    return response()->json(['message' => 'Producto eliminado correctamente'], 200);
+    return response()->json(['message' => 'Succesfully deleted product'], 200);
     }
 }

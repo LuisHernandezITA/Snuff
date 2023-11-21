@@ -46,14 +46,14 @@ class RegisterController extends ResponseController
     $user_id = $request->input('user_id');
 
     if ($user_id) {
-        // Si se proporciona el user_id, buscar al usuario por user_id
+        
         $user = User::find($user_id);
 
         if ($user) {
-            // Autenticar al usuario por su user_id
+            // AUTH WITH ID
             Auth::loginUsingId($user->id);
 
-            // Generar un nuevo token de acceso
+            // CREATE TOKEN WITH ID
             $token = $user->createToken('MyApp')->accessToken;
 
             $success['user_id'] = $user->id;
@@ -68,7 +68,7 @@ class RegisterController extends ResponseController
             return $this->sendError('Unauthorised.', ['error' => 'User not found']);
         }
     } else {
-        // Si no se proporciona user_id, proceder con la lógica de autenticación normal
+        // AUTH WITH CREDENTIALS
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->accessToken;

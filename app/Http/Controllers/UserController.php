@@ -33,8 +33,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Hashear la contraseña
-            // Otros campos relevantes para tu modelo User
+            'password' => Hash::make($request->password), 
         ]);
     
         $user->save();
@@ -52,7 +51,7 @@ class UserController extends Controller
         if ($user) {
             return $user;
         } else {
-            return response()->json(['message' => 'User no encontrado'], 404);
+            return response()->json(['message' => 'User not found'], 404);
         }
     }
 

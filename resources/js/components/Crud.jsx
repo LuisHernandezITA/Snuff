@@ -17,19 +17,25 @@ import {
 } from "react-bootstrap";
 import "/resources/css/app.css";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 import { useUser } from "./UserContext";
 
 function Crud() {
-    const { userInfo } = useUser();
+    const { userInfo } = useUser(); // USERINFO
+    const userAdmin = userInfo ? userInfo.admin : "";
+
+    if (!userAdmin) {
+        return <Navigate to="/" />;
+    }
+
     const accessToken = userInfo ? userInfo.token : "";
 
-    const [search, setSearch] = useState(""); // Estado para el campo de búsqueda
+    const [search, setSearch] = useState(""); // SEARCH STATE
     const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]); // Estado para los productos filtrados
+    const [filteredProducts, setFilteredProducts] = useState([]); // FILTERED PRODUCTS STATE
 
     // SHOW
     useEffect(() => {
-        // Cargar los productos iniciales al montar el componente
         axios
             .get("/api/products_index")
             .then((response) => {
@@ -47,7 +53,7 @@ function Crud() {
     };
 
     const filterProducts = (search) => {
-        // Si la búsqueda es vacía, mostrar todos los productos
+        // IF EMPTY, SHOW ALL PRODUCTS
         const filtered = search
             ? products.filter(
                   (product) =>
@@ -190,7 +196,7 @@ function Crud() {
     };
 
     const handleColorChange = (colorId) => {
-        // Lógica para agregar o quitar el color de la lista de seleccionados
+        // ADD OR REMOVE COLORS FROM COLORLIST
         if (selectedColors.includes(colorId)) {
             setSelectedColors(selectedColors.filter((id) => id !== colorId));
         } else {
@@ -232,7 +238,7 @@ function Crud() {
     const [sizeOptions, setSizeOptions] = useState([]);
 
     useEffect(() => {
-        // Llamada a la API para obtener la lista de colores
+        // COLORLIST
         axios
             .get("/api/color_index")
             .then((response) => {
@@ -242,7 +248,7 @@ function Crud() {
                 console.error("Error fetching color options:", error);
             });
 
-        // Llamada a la API para obtener la lista de tamaños
+        // SIZELIST
         axios
             .get("/api/size_index")
             .then((response) => {
@@ -259,14 +265,10 @@ function Crud() {
             const value = formData[key];
             return key === "images" ? value !== "" : value !== "";
         });
-    //console.log(errors);
-    //console.log(formData);
 
     const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
     const handleButtonClick = () => {
-        // Realiza las acciones que desees cuando se hace clic en el botón
-        // Luego, deshabilita el botón
         setIsButtonEnabled(false);
     };
 
@@ -284,7 +286,6 @@ function Crud() {
             available_stock: "",
             images: "",
             available: false,
-            // Añade otros campos según sea necesario
         });
         setEditMode(false);
         setIsButtonAddEnabled(false);
@@ -299,7 +300,7 @@ function Crud() {
         e.preventDefault();
 
         try {
-            // Realiza la solicitud para crear el producto
+            // ADD PRODUCT
             const productResponse = await fetch("api/products_store", {
                 method: "POST",
                 headers: {
@@ -316,9 +317,9 @@ function Crud() {
             const productData = await productResponse.json();
             const productId = productData.id;
 
-            // Verifica si hay colores seleccionados
+            // VERIFIES SELECTED COLOR
             if (selectedColors.length > 0) {
-                // Realiza la solicitud para almacenar la relación entre el producto y los colores seleccionados
+                // ADD RELATION BETWEEN PRODUCT AND COLOR
                 const colorResponse = await fetch("api/productcolors_store", {
                     method: "POST",
                     headers: {
@@ -328,7 +329,6 @@ function Crud() {
                     body: JSON.stringify({
                         product_id: productId,
                         color_ids: selectedColors,
-                        // Suponiendo que colorFormData.colors es un array de IDs de colores seleccionados
                     }),
                 });
 
@@ -339,9 +339,9 @@ function Crud() {
                 }
             }
 
-            // Verifica si hay tallas seleccionadas
+            // VERIFIES SELECTED SIZES
             if (sizeFormData.sizes.length > 0) {
-                // Realiza la solicitud para almacenar la relación entre el producto y las tallas seleccionadas
+                // ADD RELATION BETWEEN PRODUCT AND SIZE
                 const sizeResponse = await fetch("api/productsizes_store", {
                     method: "POST",
                     headers: {
@@ -351,7 +351,6 @@ function Crud() {
                     body: JSON.stringify({
                         product_id: productId,
                         size_ids: sizeFormData.sizes,
-                        // Suponiendo que sizeFormData.sizes es un array de IDs de tallas seleccionadas
                     }),
                 });
 
@@ -362,13 +361,11 @@ function Crud() {
                 }
             }
 
-            // Puedes ajustar el mensaje de éxito y las acciones adicionales aquí
             showNotification("Product added successfully");
 
             setShowAddForm(false);
             setIsButtonAddEnabled(true);
         } catch (error) {
-            // Puedes ajustar el mensaje de error y las acciones adicionales aquí
             showNotification(error.message || "Network error.");
         }
     };
@@ -383,7 +380,6 @@ function Crud() {
             const response = await axios.get(`/api/products/${id}/edit`);
             const productData = response.data;
 
-            // Rellenar el formulario con los datos del producto
             setFormData({
                 name: productData.name,
                 description: productData.description,
@@ -395,10 +391,9 @@ function Crud() {
             });
             setProductIdUpdate(id);
             setEditMode(true);
-            // Mostrar el modal de edición
             setShowAddForm(true);
         } catch (error) {
-            console.error("Error al cargar los datos del producto", error);
+            console.error("Error loading product data", error);
         }
     };
 
@@ -406,7 +401,7 @@ function Crud() {
         e.preventDefault();
 
         try {
-            // Realiza la solicitud para actualizar el producto
+            // UPDATE PRODUCT
             const response = await fetch(
                 `/api/products_update/${productIdUpdate}`,
                 {
@@ -423,7 +418,7 @@ function Crud() {
                 throw new Error("Error updating product. Check your data.");
             }
 
-            // Elimina las relaciones existentes de ProductColors asociadas al producto
+            // DELETES RELATIONS BETWEEN PRODUCT AND COLORS
             try {
                 await axios.delete(
                     `api/productcolors_destroy/${productIdUpdate}`,
@@ -437,7 +432,7 @@ function Crud() {
                 console.error("Error deleting product colors", error);
             }
 
-            // Crea nuevas relaciones de ProductColors según los colores seleccionados
+            // ADD NEW RELATIONS BETWEEN PRODUCT AND COLORS
             try {
                 if (selectedColors.length > 0) {
                     await axios.post(
@@ -458,7 +453,7 @@ function Crud() {
                 console.error("Error adding product colors", error);
             }
 
-            // Elimina las relaciones existentes de ProductSizes asociadas al producto
+            // DELETES RELATIONS BETWEEN PRODUCT AND SIZES
             try {
                 await axios.delete(
                     `api/productsizes_destroy/${productIdUpdate}`,
@@ -472,7 +467,7 @@ function Crud() {
                 console.error("Error deleting product sizes", error);
             }
 
-            // Crea nuevas relaciones de ProductSizes según las tallas seleccionadas
+            // ADD NEW RELATIONS BETWEEN PRODUCT AND SIZES
             try {
                 if (sizeFormData.sizes.length > 0) {
                     await axios.post(
@@ -493,12 +488,10 @@ function Crud() {
                 console.error("Error adding product sizes", error);
             }
 
-            // Puedes ajustar el mensaje de éxito y las acciones adicionales aquí
             showNotification("Product Updated successfully");
             setEditMode(false);
             setShowAddForm(false);
         } catch (error) {
-            // Puedes ajustar el mensaje de error y las acciones adicionales aquí
             showNotification(error.message || "Network error.");
         }
     };
@@ -507,21 +500,20 @@ function Crud() {
 
     const handleDelete = async (productId) => {
         try {
-            // Realiza la solicitud para eliminar registros de ProductColors asociados al producto
+            // DELETES RELATIONS FIRST
             await axios.delete(`api/productcolors_destroy/${productId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
 
-            // Realiza la solicitud para eliminar registros de ProductSizes asociados al producto
             await axios.delete(`api/productsizes_destroy/${productId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
 
-            // Realiza la solicitud para eliminar el producto principal
+            // DELETES PRINCIPAL PRODUCT
             const deleteResponse = await axios.delete(
                 `api/products_destroy/${productId}`,
                 {
@@ -532,15 +524,11 @@ function Crud() {
             );
 
             if (deleteResponse.status === 200) {
-                // Puedes ajustar el mensaje de éxito y las acciones adicionales aquí
                 showNotification("Product deleted successfully");
-                // Realiza cualquier actualización de la interfaz necesaria, como recargar la lista de productos
             } else {
-                // Puedes ajustar el mensaje de error y las acciones adicionales aquí
                 showNotification("Error deleting product");
             }
         } catch (error) {
-            // Puedes ajustar el mensaje de error y las acciones adicionales aquí
             console.error("Network error or server issue", error);
         }
     };
@@ -665,14 +653,14 @@ function Crud() {
                 </MDBTableBody>
             </MDBTable>
 
-            {/* Modal para el formulario de agregar y modificar producto */}
+            {/* MODAL | ADD & UPDATE */}
             <Modal
                 show={showAddForm}
                 onHide={() => {
                     setShowAddForm(false);
                     setIsButtonAddEnabled(true);
                     setIsButtonEnabled(true);
-                    // Habilita nuevamente el botón si se cierra el formulario
+                    // ENABLES BUTTON AGAIN
                 }}
             >
                 <Modal.Header
@@ -680,7 +668,7 @@ function Crud() {
                 ></Modal.Header>
                 <Modal.Body>
                     <img
-                        src="\img\logosmc.svg" // Reemplaza esto con la ruta correcta de tu imagen
+                        src="\img\logosmc.svg"
                         alt="Descripción de la imagen"
                         style={{
                             maxWidth: "80%",
@@ -690,7 +678,7 @@ function Crud() {
                             marginBottom: "20px",
                         }}
                     />
-                    {/* Formulario para agregar producto */}
+                    {/* FORM */}
                     <form
                         onSubmit={
                             editMode ? handleUpdateProduct : handleAddProduct

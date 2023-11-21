@@ -19,7 +19,7 @@ class ProductSizesController extends Controller
     
             return $names;
         } else {
-            return response()->json(['message' => 'No se encontraron sizes para el producto especificado.'], 404);
+            return response()->json(['message' => 'Theres no sizes available for the specified product'], 404);
         }
     }
 
@@ -42,7 +42,6 @@ class ProductSizesController extends Controller
     
             return response()->json(['message' => 'Product sizes added successfully.'], 200);
         } catch (\Exception $e) {
-            // Registra el error para depuración
             \Log::error($e);
     
             return response()->json(['error' => 'Internal server error.'], 500);
@@ -51,7 +50,7 @@ class ProductSizesController extends Controller
 
     public function destroy($productId)
 {
-    // Busca y elimina todos los registros con el product_id coincidente
+    
     ProductSizes::where('product_id', $productId)->delete();
 
     return response()->json(['message' => 'Registros eliminados correctamente'], 200);

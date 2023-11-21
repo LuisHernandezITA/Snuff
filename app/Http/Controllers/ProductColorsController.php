@@ -44,7 +44,7 @@ class ProductColorsController extends Controller
 
         return response()->json(['message' => 'Product colors added successfully.'], 200);
     } catch (\Exception $e) {
-        // Registra el error para depuración
+        // REGISTER COLOR FOR DEPURATION
         \Log::error($e);
 
         return response()->json(['error' => 'Internal server error.'], 500);
@@ -53,7 +53,7 @@ class ProductColorsController extends Controller
 
 public function destroy($productId)
 {
-    // Busca y elimina todos los registros con el product_id coincidente
+   
     ProductColors::where('product_id', $productId)->delete();
 
     return response()->json(['message' => 'Registros eliminados correctamente'], 200);

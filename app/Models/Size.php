@@ -12,5 +12,4 @@ class Size extends Model
 
     protected $fillable = ['name'];
 
-    // Otras propiedades y relaciones aquí
 }

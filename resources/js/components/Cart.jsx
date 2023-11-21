@@ -18,14 +18,14 @@ function Cart() {
     const userId = userInfo ? userInfo.id : "";
     const accessToken = userInfo ? userInfo.token : "";
 
-    // Verifica si el usuario está autenticado
+    // VERIFIES AUTH USER
     const isLoggedIn = userInfo && userInfo.id;
 
     const [cartProducts, setCartProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
-        // Realiza la solicitud al backend solo si el usuario está autenticado
+        // EXECUTES IF USER IS AUTH
         if (isLoggedIn) {
             fetch("http://localhost:8000/api/getProductsInCart", {
                 method: "POST",
@@ -54,14 +54,14 @@ function Cart() {
     };
 
     const handleQuantityChange = (productId, newQuantity) => {
-        // Actualiza la cantidad localmente
+        // UPDATE QUANTITY
         const updatedProducts = cartProducts.map((product) =>
             product.id === productId
                 ? { ...product, quantity: newQuantity }
                 : product
         );
 
-        // Filtra los productos que no tienen una cantidad menor o igual a cero
+        // FILTER PRODUCTS
         const filteredProducts = updatedProducts.filter(
             (product) => product.quantity > 0
         );
@@ -69,14 +69,14 @@ function Cart() {
         setCartProducts(filteredProducts);
         updateTotalPrice(filteredProducts);
 
-        // Realiza la solicitud al backend para actualizar la cantidad
+        // UPDATE QUANTITY
         fetch("http://localhost:8000/api/updateQuantity", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                user_id: userId, // Reemplaza con el user_id correcto
+                user_id: userId,
                 product_id: productId,
                 quantity: newQuantity,
             }),
@@ -87,22 +87,21 @@ function Cart() {
     };
 
     const handleRemoveFromCart = (productId) => {
-        // Realiza la solicitud al backend para eliminar el producto del carrito
+        // DELETE PRODUCT FROM CART
         fetch("http://localhost:8000/api/removeProductFromCart", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                user_id: userId, // Reemplaza 1 con el user_id correcto
+                user_id: userId,
                 product_id: productId,
             }),
         })
             .then((response) => response.json())
             .then((data) => {
                 console.log(data.message);
-                // Actualiza la lista de productos en el carrito después de eliminar el producto
-                // Puedes volver a realizar la solicitud para obtener la lista actualizada o ajustar la lista localmente
+                // UPDATES PRODUCT CART LIST
                 const updatedProducts = cartProducts.filter(
                     (product) => product.id !== productId
                 );
@@ -143,7 +142,7 @@ function Cart() {
                                     </div>
                                 )}
 
-                                {/* Renderizar los productos desde el carrito */}
+                                {/* RENDER PRODUCTS IN CART */}
                                 {cartProducts.map((product) => (
                                     <MDBRow
                                         key={product.id}
@@ -255,7 +254,7 @@ function Cart() {
 
                                 <hr className="my-4" />
 
-                                {/* Mostrar el precio total */}
+                                {/* TOTAL PRICE */}
                                 <MDBRow className="d-flex justify-content-end">
                                     <MDBCol
                                         md="3"

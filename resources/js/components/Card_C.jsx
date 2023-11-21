@@ -13,7 +13,7 @@ function Card_C(props) {
     const images = props.images;
     const available = props.available;
 
-    const { userInfo } = useUser(); // Obtén la información del usuario desde el contexto.
+    const { userInfo } = useUser(); // USERINFO
     const userId = userInfo ? userInfo.id : "";
     const accessToken = userInfo ? userInfo.token : "";
 
@@ -45,7 +45,7 @@ function Card_C(props) {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleButtonClick = () => {
-        // Desactiva el botón al hacer clic
+        // DEACTIVATE CART BUTTON
 
         if (!userId) {
             showNotification(
@@ -55,7 +55,7 @@ function Card_C(props) {
             return;
         }
 
-        // Construye el objeto con la información del producto
+        // OBJECT WITH PRODUCT INFO
         const productData = {
             product_id: props.id,
             name: props.name,
@@ -65,7 +65,7 @@ function Card_C(props) {
             available: props.available,
         };
 
-        // Realiza la solicitud POST para agregar el producto al carrito
+        // ADD PRODUCT TO CART
         axios
             .post(`/api/addcart/${userId}`, productData, {
                 headers: {
@@ -73,11 +73,12 @@ function Card_C(props) {
                 },
             })
             .then((response) => {
-                console.log(response.data); // Puedes manejar la respuesta del servidor aquí
+                console.log(response.data); // RESPONSE INFO
                 showNotification("Product added to Cart!");
             })
             .catch((error) => {
                 console.error("Error adding product to cart:", error);
+                showNotification("Error adding product to cart!");
                 // Manejar el error aquí
             });
 
@@ -116,9 +117,7 @@ function Card_C(props) {
                     disabled={isButtonDisabled || !available}
                 >
                     <MDBIcon fas icon="shopping-cart" />{" "}
-                    {/* Icono del carrito */}
                     {isButtonDisabled ? null : "Add to Cart"}{" "}
-                    {/* Texto del botón si no está deshabilitado */}
                 </MDBBtn>
             </Card.Body>
 

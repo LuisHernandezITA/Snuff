@@ -38,14 +38,14 @@ Route::get('/color_index', [ColorController::class, 'index']);
 Route::get('/size_index', [SizeController::class, 'index']);
 Route::post('/user_show', [UserController::class, 'show']);
 
-// Grupo de rutas protegidas (requiere autenticación)
+// AUTH ROUTES
 Route::middleware(['auth:api'])->group(function () {
     Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
     Route::get('/user_index', [UserController::class, 'index']);
     Route::get('/accesstokens_index', [AccessTokensController::class, 'index']);
     Route::delete('/accesstokens/destroy', [AccessTokensController::class, 'destroy']);
-    Route::post('/products_store', [ProductsController::class, 'store']); // Ruta para crear un producto
-    Route::put('/products_update/{id}', [ProductsController::class, 'update']); // Ruta para actualizar un producto
+    Route::post('/products_store', [ProductsController::class, 'store']); 
+    Route::put('/products_update/{id}', [ProductsController::class, 'update']); 
     Route::delete('/products_destroy/{id}', [ProductsController::class, 'destroy']);
     Route::get('/products/{id}/edit', [ProductsController::class, 'edit']);
     Route::post('/productcolors_store', [ProductColorsController::class, 'store']);

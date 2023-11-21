@@ -16,7 +16,7 @@ class AccessTokensController extends Controller
 
     public function destroy()
 {
-    // Usamos el método truncate para eliminar todos los registros de AccessTokens.
+ 
     \DB::table('oauth_access_tokens')->truncate();
 
     return "Todos los registros de AccessTokens han sido eliminados";

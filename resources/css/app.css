@@ -1,82 +1,81 @@
 .logo {
-    transition: all 0.5s; /* Transición suave de 0.3 segundos */
+    transition: all 0.5s; /* Smooth transition */
   }
   
-  /* Cambio de tamaño y color al hacer hover */
   .logo:hover{
-    transform: scale(1.2); /* Aumenta el tamaño en 20% en hover */
-    fill: #f3e5e5; /* Cambia el color de relleno en hover (puedes ajustar el color) */
+    transform: scale(1.2); /* Increases size */
+    fill: #f3e5e5; /* Changes color */
   }
 
   /*CARD*/
 
   .my-card {
-    width: 300px; /* Ajusta el ancho de la tarjeta según tus necesidades */
-    height: 300px; /* Establece la altura igual al ancho para hacer la tarjeta cuadrada */
-    transition: transform 0.3s; /* Agrega una transición para suavizar el efecto de agrandamiento */
+    width: 300px; 
+    height: 300px; 
+    transition: transform 0.3s; 
 }
 
 .my-card-img-container {
-    height: 100%; /* Hace que el contenedor de la imagen ocupe toda la altura de la tarjeta */
-    overflow: hidden; /* Oculta cualquier parte de la imagen que exceda los límites de la tarjeta */
+    height: 100%; 
+    overflow: hidden; 
 }
 
 .my-card-img {
-    transition: transform 0.3s; /* Agrega una transición para suavizar el efecto de agrandamiento */
+    transition: transform 0.3s; 
 }
 
 .my-card:hover .my-card-img {
-    transform: scale(1.05); /* Agrandar la imagen al pasar el mouse */
+    transform: scale(1.05); 
 }
 
 /*BUTTON CARD*/
 
 .custom-button {
-  background: transparent; /* Fondo transparente */
-  border: 2px solid #000; /* Bordes sólidos */
-  color: #000; /* Color del texto */
-  padding: 10px 20px; /* Espaciado interior del botón */
+  background: transparent;
+  border: 2px solid #000; 
+  color: #000; 
+  padding: 10px 20px; 
   transition: background 0.9s ease-in-out, color 0.6s ease-in-out;
 }
 
 .custom-button:hover {
-  background: linear-gradient(to bottom, #000, #333); /* Degradado de color oscuro */
-  color: #fff; /* Cambio de color del texto al pasar el cursor */
+  background: linear-gradient(to bottom, #000, #333); 
+  color: #fff; 
 }
 
 
 .custom-button.clicked {
-  background: transparent; /* Fondo transparente cuando el botón ha sido clicado */
-  border: 2px solid #000; /* Bordes negros cuando el botón ha sido clicado */
+  background: transparent; 
+  border: 2px solid #000; 
 }
 
 .custom-button.clicked .mdb-icon {
-  display: inline; /* Mostrar el icono del carrito cuando el botón ha sido clicado */
+  display: inline; 
 }
 
 .custom-button.clicked:disabled {
-  background: transparent; /* Mantener el fondo transparente cuando el botón está desactivado después de hacer clic */
-  border: 2px solid rgb(126, 124, 124); /* Mantener los bordes negros cuando el botón está desactivado después de hacer clic */
-  pointer-events: none; /* Evitar clics adicionales en el botón desactivado */
+  background: transparent; 
+  border: 2px solid rgb(126, 124, 124); 
+  pointer-events: none; 
   color:rgb(126, 124, 124);
 }
 
 .custom-button:disabled {
-  background: transparent; /* Mantener el fondo transparente cuando el botón está desactivado después de hacer clic */
-  border: 2px solid rgb(126, 124, 124); /* Mantener los bordes negros cuando el botón está desactivado después de hacer clic */
-  pointer-events: none; /* Evitar clics adicionales en el botón desactivado */
+  background: transparent; 
+  border: 2px solid rgb(126, 124, 124); 
+  pointer-events: none; 
   color:rgb(126, 124, 124);
 }
 
 /*ICONS*/
 
 .icon {
-  font-size: 1em; /* Tamaño inicial del ícono */
-  transition: font-size 0.3s ease ; /* Transición suave del tamaño del ícono durante 0.3 segundos */
+  font-size: 1em; 
+  transition: font-size 0.3s ease ; 
 }
 
 .nav-link:hover .icon {
-  font-size: 1.2em; /* Aumenta el tamaño del ícono en el estado hover */
+  font-size: 1.2em; 
   color: red;
 }
 
@@ -123,43 +122,42 @@ border-bottom-right-radius: 16px;
 
 .error-text {
   color: red;
-  font-size: 12px; /* Tamaño de fuente personalizado */
+  font-size: 12px; 
 }
 
 /*NOTI*/
 
 .notification {
   position: fixed;
-  top: -100px; /* Inicialmente, coloca la notificación fuera de la pantalla */
+  top: -100px; 
   right: 20px;
   background-color: white;
   color: #0e0d0d;
   padding: 10px;
   border-radius: 4px;
   z-index: 9999;
-  transition: top 0.8s, opacity 0.8s; /* Agrega 's' después de los valores de tiempo para especificar segundos */
+  transition: top 0.8s, opacity 0.8s; 
 }
 
 .notification.show {
-  top: 20px; /* Muestra la notificación moviéndola hacia abajo desde la parte superior */
+  top: 20px; 
   display: block;
 }
 
 .notification.hide {
-  top: -100px; /* Oculta la notificación moviéndola hacia arriba fuera de la pantalla */
+  top: -100px; 
   display: none;
 }
 
 .notification-bar {
   height: 4px;
-  background-color: #171718; /* Color de la barra de tiempo */
+  background-color: #171718; 
   position: absolute;
   bottom: 3px;
   left: 0;
   width: 100%;
 }
 
-/* Agrega una clase para animar la barra de tiempo */
 .notification-bar-progress {
   animation: progress 1.5s linear;
 }
@@ -177,22 +175,22 @@ border-bottom-right-radius: 16px;
 .labelnew {
   color: black;
   padding: 30px 0px 0px 80px;
-  font-size: 24px; /* Ajusta el tamaño de fuente según tu preferencia */
+  font-size: 24px; 
 }
 
 /* menuStyles.css */
 .ver-todo-link {
   display: block;
-  margin-top: 20px; /* Ajusta la separación desde la parte superior según tu preferencia */
+  margin-top: 20px; 
   text-decoration: none;
-  color: rgb(34, 34, 36); /* Cambia el color del enlace según tus preferencias */
+  color: rgb(34, 34, 36); 
   font-size: 14px;
 
 }
 
 .ver-todo-link:hover {
   text-decoration: underline;
-  color: darkblue; /* Cambia el color cuando el cursor está sobre el enlace */
+  color: darkblue; 
 }
 
 /*PRODUCT DESCRIPTION*/
@@ -289,18 +287,18 @@ border-bottom-right-radius: 16px;
   background: transparent;
   border: none;
   text-decoration: underline;
-  transition: all 0.2s ease; /* Transición suave para el hover */
+  transition: all 0.2s ease; 
 }
 
 .color-button-detail:hover,
 .size-button-detail:hover {
-  transform: scale(1.2); /* Aumenta el tamaño en el hover */
-  opacity: 0.3; /* Hace que los colores/tamaños no seleccionados sean opacos */
+  transform: scale(1.2); 
+  opacity: 0.3; 
 }
 
 .color-button-detail.selected,
 .size-button-detail.selected {
-  opacity: 1; /* Hace que los colores/tamaños seleccionados sean normales */
+  opacity: 1; 
 }
 
 @media (max-width: 500px){
@@ -319,7 +317,7 @@ border-bottom-right-radius: 16px;
   display: inline-block;
   width: 0;
   height: 0;
-  margin-left: 5px; /* Ajusta el espacio entre el texto y la flecha según tus preferencias */
+  margin-left: 5px; 
 }
 
 .asc::after {
@@ -336,8 +334,8 @@ border-bottom-right-radius: 16px;
 
 .sold-out-badge {
   position: absolute;
-  top: 120px; /* Ajusta la posición superior según sea necesario */
-  right: 0px; /* Ajusta la posición izquierda según sea necesario */
+  top: 120px; 
+  right: 0px; 
   z-index: 1;
   padding: 20px;
   background-color: rgb(194, 23, 23);
@@ -347,11 +345,10 @@ border-bottom-right-radius: 16px;
 }
 
 .my-card-img-container {
-  position: relative; /* Asegura que la posición absoluta sea relativa a este contenedor */
+  position: relative; 
 }
 
 .my-card-img.sold-out {
-  /* Puedes aplicar estilos adicionales para resaltar que el producto está agotado */
   opacity: 0.7;
 }
 

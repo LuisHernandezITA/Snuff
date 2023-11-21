@@ -31,13 +31,11 @@ function ListCardNewest() {
         );
     }
 
-    // Verificar que productData sea una matriz válida antes de dividirla en grupos
     if (!Array.isArray(productData)) {
         console.error("productData no es una matriz válida");
-        return null; // o muestra un mensaje de error
+        return null;
     }
 
-    // Divide el array en grupos de 2
     const groupedProductData = [];
     for (let i = 0; i < productData.length; i += 2) {
         groupedProductData.push(productData.slice(i, i + 2));

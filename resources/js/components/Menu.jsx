@@ -40,23 +40,19 @@ function Menu() {
     };
 
     const handleLogout = () => {
-        // Elimina la información de la cookie
         document.cookie =
             "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-        // Notifica al usuario que la sesión se cerró exitosamente
         showNotification("Sesión cerrada exitosamente");
 
-        // Redirige al usuario después de cerrar sesión
         setTimeout(() => {
             window.location.href = "/";
         }, 1500);
     };
 
     const hideListCardNewest = location.pathname === "/ListCard";
-    // Usar useEffect para ajustar showCarousel en función de la ubicación actual
     useEffect(() => {
-        // Verificar si la ubicación actual es "Login_B"
+        // VERIFIES LOCATION "Login_B"
         if (
             location.pathname === "/Login_B" ||
             location.pathname === "/Cart" ||
@@ -84,8 +80,8 @@ function Menu() {
                     </Navbar.Brand>
 
                     <Nav>
-                        {userName ? ( // Verifica si hay un nombre de usuario
-                            userAdmin ? ( // Verifica si hay un nombre de usuario
+                        {userName ? (
+                            userAdmin ? (
                                 <Nav>
                                     <Nav.Link as={Link} to="">
                                         {userName} Mode
@@ -118,7 +114,7 @@ function Menu() {
                                 <div className="notification-bar"></div>
                             </div>
                         )}
-                        {userName ? ( // Verifica si hay un nombre de usuario
+                        {userName ? ( // CHANGES IF USER IS LOGGED
                             <Nav.Link onClick={handleLogout} title="Logout">
                                 <MDBIcon
                                     fas

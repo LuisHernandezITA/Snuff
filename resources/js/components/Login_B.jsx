@@ -100,10 +100,9 @@ function Login_B() {
     const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
     const handleButtonClick = () => {
-        // Realiza las acciones que desees cuando se hace clic en el botón
-        // Luego, deshabilita el botón
         setIsButtonEnabled(false);
     };
+
     //LOGIN
 
     const handleLogin = async (e) => {
@@ -119,37 +118,32 @@ function Login_B() {
             });
 
             if (response.ok) {
-                const data = await response.json(); // Convierte la respuesta a formato JSON
+                const data = await response.json();
 
-                // Accede a los datos específicos que devolvió el servidor
                 const { success, message, user } = data;
 
                 showNotification(message);
 
                 if (success) {
-                    // Puedes hacer algo con los datos del usuario si es necesario
-                    console.log("Datos del usuario:", user);
+                    //console.log("User data:", user);
                     document.cookie = `user_id=${user.user_id}; path=/`;
 
                     axios.defaults.headers.common[
                         "Authorization"
                     ] = `Bearer ${user.token}`;
 
-                    // Redirecciona o realiza otras acciones después del inicio de sesión
                     setTimeout(() => {
-                        //window.location.href = "/";
+                        window.location.href = "/";
                     }, 1500);
                 }
             } else {
-                showNotification(
-                    "Error de inicio de sesión. Verifica tus datos."
-                );
+                showNotification("Login error. Verify your data.");
                 setTimeout(() => {
                     window.location.href = "/Login_B";
                 }, 1500);
             }
         } catch (error) {
-            showNotification("Error de Red.");
+            showNotification("Network Error.");
             setTimeout(() => {
                 window.location.href = "/Login_B";
             }, 1500);
@@ -176,13 +170,13 @@ function Login_B() {
                     window.location.href = "/Login_B";
                 }, 1500);
             } else {
-                showNotification("Error de registro. Verifica tus datos.");
+                showNotification("Register error. Verify your data.");
                 setTimeout(() => {
                     window.location.href = "/Login_B";
                 }, 1500);
             }
         } catch (error) {
-            showNotification("Error de Red.");
+            showNotification("Network Error.");
             setTimeout(() => {
                 window.location.href = "/Login_B";
             }, 1500);
@@ -259,7 +253,7 @@ function Login_B() {
                             size="lg"
                             className="mb-4 w-100"
                             type="submit"
-                            disabled={!isButtonEnabled} // Deshabilita el botón si isButtonEnabled es falso
+                            disabled={!isButtonEnabled}
                             onClick={handleButtonClick}
                         >
                             Sign in

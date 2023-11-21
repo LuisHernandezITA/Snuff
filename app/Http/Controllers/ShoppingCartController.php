@@ -24,20 +24,19 @@ class ShoppingCartController extends Controller
 
 public function removeFromCart(Request $request)
 {
-    $user_id = Auth::id(); // Obtén el ID del usuario autenticado
+    $user_id = Auth::id();
 
     $shoppingCart = ShoppingCart::where('user_id', $user_id)
         ->where('product_id', $request->product_id)
         ->delete();
 
-    // Obtén los productos actualizados en el carrito después de eliminar el producto
     $updatedCart = ShoppingCart::where('user_id', $user_id)->get();
 
-    return response()->json(['message' => 'Producto eliminado del carrito con éxito', 'cart' => $updatedCart]);
+    return response()->json(['message' => 'Succesfully removed product from cart', 'cart' => $updatedCart]);
 }
 public function getProductsInCart(Request $request)
 {
-    $user_id = $request->user_id; // Asegúrate de pasar el user_id en la solicitud
+    $user_id = $request->user_id; 
 
     $cartItems = ShoppingCart::where('user_id', $user_id)->get();
 
@@ -45,7 +44,6 @@ public function getProductsInCart(Request $request)
         $productIds = $cartItems->pluck('product_id');
         $products = Products::whereIn('id', $productIds)->get();
 
-        // Mapea la cantidad de cada producto en el carrito
         $products = $products->map(function ($product) use ($cartItems) {
             $product->quantity = $cartItems->where('product_id', $product->id)->count();
             return $product;
@@ -53,7 +51,7 @@ public function getProductsInCart(Request $request)
 
         return $products;
     } else {
-        return response()->json(['message' => 'No se encontraron productos en el carrito para el usuario especificado.'], 404);
+        return response()->json(['message' => 'Theres no products in the specified cart.'], 404);
     }
 }
 

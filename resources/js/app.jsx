@@ -21,9 +21,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { UserProvider } from "./components/UserContext";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
-const token = "tu_token_aqui"; // Reemplaza con tu lógica para obtener el token
-axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
 ReactDOM.createRoot(document.getElementById("app")).render(
     <UserProvider>
         <BrowserRouter>

@@ -13,7 +13,7 @@ function Product() {
     const [colors, setColors] = useState([]);
     const [sizes, setSizes] = useState([]);
 
-    const { userInfo } = useUser(); // Obtén la información del usuario desde el contexto.
+    const { userInfo } = useUser();
     const userId = userInfo ? userInfo.id : "";
 
     const [selectedColor, setSelectedColor] = useState(null);
@@ -45,7 +45,6 @@ function Product() {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleButtonClick = () => {
-        // Verifica si el userId está vacío o es false
         if (!userId) {
             setIsButtonDisabled(true);
             showNotification(
@@ -55,21 +54,20 @@ function Product() {
             return;
         }
 
-        // Construye el objeto con la información del producto
+        // BUILDS PRODUCT
         const productData = {
             product_id: product.id,
         };
 
-        // Realiza la solicitud POST para agregar el producto al carrito
+        // ADD PRODUCT TO CART
         axios
             .post(`/api/addcart/${userId}`, productData)
             .then((response) => {
-                console.log(response.data); // Puedes manejar la respuesta del servidor aquí
+                console.log(response.data);
                 showNotification("Product added to Cart!");
             })
             .catch((error) => {
                 console.error("Error adding product to cart:", error);
-                // Manejar el error aquí
             });
         setIsButtonDisabled(true);
     };
@@ -84,7 +82,7 @@ function Product() {
                 if (productResponse.data.length > 0) {
                     setProduct(productResponse.data[0]);
                 } else {
-                    console.error("Producto no encontrado");
+                    console.error("Product not found");
                 }
             } catch (error) {
                 console.error(error);
@@ -125,9 +123,9 @@ function Product() {
             fetchData();
         }
 
-        console.log(product);
-        console.log(colors);
-        console.log(sizes);
+        //console.log(product);
+        //console.log(colors);
+        //console.log(sizes);
     }, [id]);
 
     if (!product) {
@@ -237,18 +235,15 @@ function Product() {
                         disabled={isButtonDisabled || !product.available}
                     >
                         <MDBIcon fas icon="shopping-cart" />{" "}
-                        {/* Icono del carrito */}
                         {isButtonDisabled ? null : "Add to Cart"}{" "}
-                        {/* Texto del botón si no está deshabilitado */}
                     </MDBBtn>
                 </div>
             </div>
             <div className="thumb">
                 <img src={product.images} alt="Thumbnail 1" />
                 <img src="URL_IMAGEN_THUMBNAIL_2" alt="Thumbnail 2" />
-                {/* Agrega más miniaturas según sea necesario */}
             </div>
-            {/* Imagen en la esquina inferior derecha */}
+            {/* SMALL IMAGE */}
             <img
                 src={smallImage}
                 alt="Small Image"
@@ -256,8 +251,8 @@ function Product() {
                     position: "absolute",
                     bottom: "20px",
                     right: "20px",
-                    maxWidth: "100%", // Hace que la imagen sea responsive
-                    height: "auto", // Hace que la imagen sea responsive
+                    maxWidth: "100%",
+                    height: "auto",
                 }}
             />
             {notification && (
