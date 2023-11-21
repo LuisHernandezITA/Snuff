@@ -42,21 +42,48 @@ class RegisterController extends ResponseController
     }
 
     public function login(Request $request)
-    {
-    if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-        $user = Auth::user();
-        $success['token'] = $user->createToken('MyApp')->accessToken;
-        $success['name'] = $user->name;
+{
+    $user_id = $request->input('user_id');
 
-        
-        // Devuelve la información del usuario como respuesta JSON
-        return response()->json([
-            'success' => true,
-            'message' => 'User login successfully.',
-            'user' => $success
-        ]);
+    if ($user_id) {
+        // Si se proporciona el user_id, buscar al usuario por user_id
+        $user = User::find($user_id);
+
+        if ($user) {
+            // Autenticar al usuario por su user_id
+            Auth::loginUsingId($user->id);
+
+            // Generar un nuevo token de acceso
+            $token = $user->createToken('MyApp')->accessToken;
+
+            $success['user_id'] = $user->id;
+            $success['token'] = $token;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User login successfully.',
+                'user' => $success
+            ]);
+        } else {
+            return $this->sendError('Unauthorised.', ['error' => 'User not found']);
+        }
     } else {
-        return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        // Si no se proporciona user_id, proceder con la lógica de autenticación normal
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            $user = Auth::user();
+            $success['token'] = $user->createToken('MyApp')->accessToken;
+            $success['name'] = $user->name;
+            $success['user_id'] = $user->id;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User login successfully.',
+                'user' => $success
+            ]);
+        } else {
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        }
     }
 }
+
 }

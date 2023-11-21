@@ -19,7 +19,10 @@ import { BrowserRouter } from "react-router-dom";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { UserProvider } from "./components/UserContext";
-import '@fortawesome/fontawesome-svg-core/styles.css';
+import "@fortawesome/fontawesome-svg-core/styles.css";
+
+const token = "tu_token_aqui"; // Reemplaza con tu lógica para obtener el token
+axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 ReactDOM.createRoot(document.getElementById("app")).render(
     <UserProvider>
@@ -28,4 +31,3 @@ ReactDOM.createRoot(document.getElementById("app")).render(
         </BrowserRouter>
     </UserProvider>
 );
-

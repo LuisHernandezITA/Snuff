@@ -15,6 +15,7 @@ function Card_C(props) {
 
     const { userInfo } = useUser(); // Obtén la información del usuario desde el contexto.
     const userId = userInfo ? userInfo.id : "";
+    const accessToken = userInfo ? userInfo.token : "";
 
     console.log(userId);
 
@@ -66,7 +67,11 @@ function Card_C(props) {
 
         // Realiza la solicitud POST para agregar el producto al carrito
         axios
-            .post(`/api/addcart/${userId}`, productData)
+            .post(`/api/addcart/${userId}`, productData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
             .then((response) => {
                 console.log(response.data); // Puedes manejar la respuesta del servidor aquí
                 showNotification("Product added to Cart!");
@@ -75,6 +80,7 @@ function Card_C(props) {
                 console.error("Error adding product to cart:", error);
                 // Manejar el error aquí
             });
+
         setIsButtonDisabled(true);
     };
 

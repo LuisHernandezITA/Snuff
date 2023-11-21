@@ -119,10 +119,27 @@ function Login_B() {
             });
 
             if (response.ok) {
-                showNotification("Successfull User Login");
-                setTimeout(() => {
-                    window.location.href = "/";
-                }, 1500);
+                const data = await response.json(); // Convierte la respuesta a formato JSON
+
+                // Accede a los datos específicos que devolvió el servidor
+                const { success, message, user } = data;
+
+                showNotification(message);
+
+                if (success) {
+                    // Puedes hacer algo con los datos del usuario si es necesario
+                    console.log("Datos del usuario:", user);
+                    document.cookie = `user_id=${user.user_id}; path=/`;
+
+                    axios.defaults.headers.common[
+                        "Authorization"
+                    ] = `Bearer ${user.token}`;
+
+                    // Redirecciona o realiza otras acciones después del inicio de sesión
+                    setTimeout(() => {
+                        //window.location.href = "/";
+                    }, 1500);
+                }
             } else {
                 showNotification(
                     "Error de inicio de sesión. Verifica tus datos."

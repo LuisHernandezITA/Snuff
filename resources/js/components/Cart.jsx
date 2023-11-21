@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 function Cart() {
     const { userInfo } = useUser();
     const userId = userInfo ? userInfo.id : "";
+    const accessToken = userInfo ? userInfo.token : "";
 
     // Verifica si el usuario está autenticado
     const isLoggedIn = userInfo && userInfo.id;
@@ -30,6 +31,7 @@ function Cart() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify({ user_id: userId }),
             })

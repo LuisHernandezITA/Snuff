@@ -17,8 +17,12 @@ import {
 } from "react-bootstrap";
 import "/resources/css/app.css";
 import axios from "axios";
+import { useUser } from "./UserContext";
 
 function Crud() {
+    const { userInfo } = useUser();
+    const accessToken = userInfo ? userInfo.token : "";
+
     const [search, setSearch] = useState(""); // Estado para el campo de búsqueda
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]); // Estado para los productos filtrados
@@ -300,6 +304,7 @@ function Crud() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify(formData),
             });
@@ -318,6 +323,7 @@ function Crud() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
                     },
                     body: JSON.stringify({
                         product_id: productId,
@@ -340,6 +346,7 @@ function Crud() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
                     },
                     body: JSON.stringify({
                         product_id: productId,
@@ -406,6 +413,7 @@ function Crud() {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
                     },
                     body: JSON.stringify(formData),
                 }
@@ -418,7 +426,12 @@ function Crud() {
             // Elimina las relaciones existentes de ProductColors asociadas al producto
             try {
                 await axios.delete(
-                    `api/productcolors_destroy/${productIdUpdate}`
+                    `api/productcolors_destroy/${productIdUpdate}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
                 );
             } catch (error) {
                 console.error("Error deleting product colors", error);
@@ -427,10 +440,19 @@ function Crud() {
             // Crea nuevas relaciones de ProductColors según los colores seleccionados
             try {
                 if (selectedColors.length > 0) {
-                    await axios.post("api/productcolors_store", {
-                        product_id: productIdUpdate,
-                        color_ids: selectedColors,
-                    });
+                    await axios.post(
+                        "api/productcolors_store",
+                        {
+                            product_id: productIdUpdate,
+                            color_ids: selectedColors,
+                        },
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
                 }
             } catch (error) {
                 console.error("Error adding product colors", error);
@@ -439,7 +461,12 @@ function Crud() {
             // Elimina las relaciones existentes de ProductSizes asociadas al producto
             try {
                 await axios.delete(
-                    `api/productsizes_destroy/${productIdUpdate}`
+                    `api/productsizes_destroy/${productIdUpdate}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
                 );
             } catch (error) {
                 console.error("Error deleting product sizes", error);
@@ -448,10 +475,19 @@ function Crud() {
             // Crea nuevas relaciones de ProductSizes según las tallas seleccionadas
             try {
                 if (sizeFormData.sizes.length > 0) {
-                    await axios.post("api/productsizes_store", {
-                        product_id: productIdUpdate,
-                        size_ids: sizeFormData.sizes,
-                    });
+                    await axios.post(
+                        "api/productsizes_store",
+                        {
+                            product_id: productIdUpdate,
+                            size_ids: sizeFormData.sizes,
+                        },
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
                 }
             } catch (error) {
                 console.error("Error adding product sizes", error);
@@ -472,14 +508,27 @@ function Crud() {
     const handleDelete = async (productId) => {
         try {
             // Realiza la solicitud para eliminar registros de ProductColors asociados al producto
-            await axios.delete(`api/productcolors_destroy/${productId}`);
+            await axios.delete(`api/productcolors_destroy/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
             // Realiza la solicitud para eliminar registros de ProductSizes asociados al producto
-            await axios.delete(`api/productsizes_destroy/${productId}`);
+            await axios.delete(`api/productsizes_destroy/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
             // Realiza la solicitud para eliminar el producto principal
             const deleteResponse = await axios.delete(
-                `api/products_destroy/${productId}`
+                `api/products_destroy/${productId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
             );
 
             if (deleteResponse.status === 200) {

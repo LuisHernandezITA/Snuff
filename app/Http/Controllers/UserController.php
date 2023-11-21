@@ -83,4 +83,6 @@ class UserController extends Controller
     public function token(){
         return csrf_token();
     }
+
+    
 }

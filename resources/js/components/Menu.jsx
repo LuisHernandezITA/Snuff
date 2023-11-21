@@ -40,18 +40,19 @@ function Menu() {
     };
 
     const handleLogout = () => {
-        axios
-            .delete("/api/accesstokens/destroy")
-            .then(() => {
-                showNotification("Sesión cerrada exitosamente");
-                setTimeout(() => {
-                    window.location.href = "/";
-                }, 1500);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        // Elimina la información de la cookie
+        document.cookie =
+            "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        // Notifica al usuario que la sesión se cerró exitosamente
+        showNotification("Sesión cerrada exitosamente");
+
+        // Redirige al usuario después de cerrar sesión
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 1500);
     };
+
     const hideListCardNewest = location.pathname === "/ListCard";
     // Usar useEffect para ajustar showCarousel en función de la ubicación actual
     useEffect(() => {
