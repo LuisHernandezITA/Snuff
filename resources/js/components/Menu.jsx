@@ -57,6 +57,7 @@ function Menu() {
             location.pathname === "/Login_B" ||
             location.pathname === "/Cart" ||
             location.pathname === "/Crud" ||
+            location.pathname === "/CrudCategory" ||
             location.pathname.startsWith("/Product")
         ) {
             setShowCarousel(false);
@@ -96,8 +97,9 @@ function Menu() {
                             {userName ? (
                                 userAdmin ? (
                                     <>
-                                        <Nav.Link as={Link} to="">
-                                            {userName} Mode
+                                        <Nav.Link>{userName} Mode</Nav.Link>
+                                        <Nav.Link as={Link} to="CrudCategory">
+                                            Categories
                                         </Nav.Link>
                                         <Nav.Link as={Link} to="Crud">
                                             Products

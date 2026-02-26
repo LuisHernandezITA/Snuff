@@ -40,8 +40,6 @@ Route::post('/user_show', [UserController::class, 'show']);
 
 Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
 
-
-
 //Route::post('/getProductsInCart', [ShoppingCartController::class, 'getProductsInCart']);
 
 // AUTH ROUTES
@@ -50,6 +48,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/user_index', [UserController::class, 'index']);
     Route::get('/accesstokens_index', [AccessTokensController::class, 'index']);
     Route::delete('/accesstokens/destroy', [AccessTokensController::class, 'destroy']);
+
+    Route::get('categories/{id}/edit', [CategoryController::class, 'edit']);
+    Route::post('categories_store', [CategoryController::class, 'store']);
+    Route::put('categories_update/{id}', [CategoryController::class, 'update']);
+    Route::delete('categories_destroy/{id}', [CategoryController::class, 'destroy']);
+
     Route::post('/products_store', [ProductsController::class, 'store']); 
     Route::put('/products_update/{id}', [ProductsController::class, 'update']); 
     Route::delete('/products_destroy/{id}', [ProductsController::class, 'destroy']);

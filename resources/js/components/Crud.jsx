@@ -21,7 +21,7 @@ import { Navigate } from "react-router-dom";
 import { useUser } from "./UserContext";
 
 function Crud() {
-    const { userInfo } = useUser(); // USERINFO
+    const { userInfo } = useUser();
     const userAdmin = userInfo ? userInfo.admin : "";
 
     if (!userAdmin) {
@@ -30,58 +30,62 @@ function Crud() {
 
     const accessToken = userInfo ? userInfo.token : "";
 
-    const [search, setSearch] = useState(""); // SEARCH STATE
+    // --- ESTADOS ---
+    const [search, setSearch] = useState("");
     const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]); // FILTERED PRODUCTS STATE
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
+    const [isButtonAddEnabled, setIsButtonAddEnabled] = useState(true);
+    const [editMode, setEditMode] = useState(false);
+    const [productIdUpdate, setProductIdUpdate] = useState(null);
 
-    // SHOW
-    useEffect(() => {
+    // --- CARGAR DATOS (FUNCIÓN REUTILIZABLE) ---
+    const getProducts = () => {
         axios
             .get("/api/products_index")
             .then((response) => {
                 setProducts(response.data);
+                // Cambio clave: Sincronizar la tabla filtrada de inmediato
+                setFilteredProducts(response.data);
             })
-            .catch((error) => {
-                console.error(error);
-            });
+            .catch((error) => console.error(error));
+    };
+
+    useEffect(() => {
+        getProducts();
     }, []);
 
+    // --- BÚSQUEDA AUTOMÁTICA ---
     const handleSearchChange = (e) => {
         const searchText = e.target.value;
         setSearch(searchText);
-        filterProducts(searchText);
-    };
-
-    const filterProducts = (search) => {
-        // IF EMPTY, SHOW ALL PRODUCTS
-        const filtered = search
+        const filtered = searchText
             ? products.filter(
-                  (product) =>
-                      product.name
+                  (p) =>
+                      p.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                      p.description
                           .toLowerCase()
-                          .includes(search.toLowerCase()) ||
-                      product.description
-                          .toLowerCase()
-                          .includes(search.toLowerCase())
+                          .includes(searchText.toLowerCase()),
               )
             : products;
-
         setFilteredProducts(filtered);
     };
 
-    //NOTIFICATIONS
-
+    // --- NOTIFICACIONES ---
     const [notification, setNotification] = useState(null);
     const [notificationVisible, setNotificationVisible] = useState(false);
 
     useEffect(() => {
         if (notificationVisible) {
             const progressBar = document.querySelector(".notification-bar");
-            progressBar.classList.add("notification-bar-progress");
+            if (progressBar)
+                progressBar.classList.add("notification-bar-progress");
 
             setTimeout(() => {
                 setNotificationVisible(false);
-                window.location.href = "/Crud";
+                // En lugar de recargar la página, refrescamos los datos
+                getProducts();
             }, 1500);
         }
     }, [notificationVisible]);
@@ -91,8 +95,7 @@ function Crud() {
         setNotificationVisible(true);
     };
 
-    //VALIDATIONS
-
+    // --- FORMULARIO ---
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -100,20 +103,32 @@ function Crud() {
         available_stock: "",
         images: "",
         available: false,
+        category_id: "",
     });
 
-    const [sizeFormData, setSizeFormData] = useState({
-        sizes: [],
-    });
+    const [selectedColors, setSelectedColors] = useState([]);
+    const [sizeFormData, setSizeFormData] = useState({ sizes: [] });
+    const [errors, setErrors] = useState({});
 
-    const [errors, setErrors] = useState({
-        name: "",
-        description: "",
-        price: "",
-        available_stock: "",
-        images: "",
-        available: "",
-    });
+    // --- HANDLERS ---
+    const handleButtonClick = () => setIsButtonEnabled(false);
+
+    const handleButtonAddClick = () => {
+        setFormData({
+            name: "",
+            description: "",
+            price: "",
+            available_stock: "",
+            images: "",
+            available: false,
+            category_id: "",
+        });
+        setSelectedColors([]);
+        setSizeFormData({ sizes: [] });
+        setEditMode(false);
+        setIsButtonAddEnabled(false);
+        setShowAddForm(true);
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -134,7 +149,7 @@ function Crud() {
                     sizes: checked
                         ? [...prevData.sizes, parseInt(value, 10)]
                         : prevData.sizes.filter(
-                              (id) => id !== parseInt(value, 10)
+                              (id) => id !== parseInt(value, 10),
                           ),
                 }));
             }
@@ -161,16 +176,16 @@ function Crud() {
                 newErrors[name] = isEmpty(value)
                     ? "* Price is required"
                     : !/^\d+(\.\d{1,2})?$/.test(value)
-                    ? "* Invalid price format. Only numbers allowed."
-                    : "";
+                      ? "* Invalid price format. Only numbers allowed."
+                      : "";
                 break;
 
             case "available_stock":
                 newErrors[name] = isEmpty(value)
                     ? "* Stock is required"
                     : !/^\d+$/.test(value)
-                    ? "* Invalid stock format. Only integers allowed."
-                    : "";
+                      ? "* Invalid stock format. Only integers allowed."
+                      : "";
                 break;
 
             case "category":
@@ -223,7 +238,7 @@ function Crud() {
                 } else {
                     console.error(
                         "Unexpected data format for categories:",
-                        response.data
+                        response.data,
                     );
                 }
             })
@@ -266,35 +281,7 @@ function Crud() {
             return key === "images" ? value !== "" : value !== "";
         });
 
-    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
-
-    const handleButtonClick = () => {
-        setIsButtonEnabled(false);
-    };
-
-    //BUTTON ENABLE ADD PRODUCTS
-
-    const [showAddForm, setShowAddForm] = useState(false);
-    const [isButtonAddEnabled, setIsButtonAddEnabled] = useState(true);
-
-    const handleButtonAddClick = () => {
-        setFormData({
-            name: "",
-            description: "",
-            category_id: "",
-            price: "",
-            available_stock: "",
-            images: "",
-            available: false,
-        });
-        setEditMode(false);
-        setIsButtonAddEnabled(false);
-        setShowAddForm(true);
-    };
-
     //ADD PRODUCT
-
-    const [selectedColors, setSelectedColors] = useState([]);
 
     const handleAddProduct = async (e) => {
         e.preventDefault();
@@ -334,7 +321,7 @@ function Crud() {
 
                 if (!colorResponse.ok) {
                     throw new Error(
-                        "Error adding product colors. Check your data."
+                        "Error adding product colors. Check your data.",
                     );
                 }
             }
@@ -356,24 +343,23 @@ function Crud() {
 
                 if (!sizeResponse.ok) {
                     throw new Error(
-                        "Error adding product sizes. Check your data."
+                        "Error adding product sizes. Check your data.",
                     );
                 }
             }
 
             showNotification("Product added successfully");
+            setIsButtonEnabled(true);
+            setIsButtonAddEnabled(true);
+            getProducts();
 
             setShowAddForm(false);
-            setIsButtonAddEnabled(true);
         } catch (error) {
             showNotification(error.message || "Network error.");
         }
     };
 
     // EDIT
-
-    const [editMode, setEditMode] = useState(false);
-    const [productIdUpdate, setProductIdUpdate] = useState(null);
 
     const handleEdit = async (id) => {
         try {
@@ -411,7 +397,7 @@ function Crud() {
                         Authorization: `Bearer ${accessToken}`,
                     },
                     body: JSON.stringify(formData),
-                }
+                },
             );
 
             if (!response.ok) {
@@ -426,7 +412,7 @@ function Crud() {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    }
+                    },
                 );
             } catch (error) {
                 console.error("Error deleting product colors", error);
@@ -446,7 +432,7 @@ function Crud() {
                                 "Content-Type": "application/json",
                                 Authorization: `Bearer ${accessToken}`,
                             },
-                        }
+                        },
                     );
                 }
             } catch (error) {
@@ -461,7 +447,7 @@ function Crud() {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    }
+                    },
                 );
             } catch (error) {
                 console.error("Error deleting product sizes", error);
@@ -481,7 +467,7 @@ function Crud() {
                                 "Content-Type": "application/json",
                                 Authorization: `Bearer ${accessToken}`,
                             },
-                        }
+                        },
                     );
                 }
             } catch (error) {
@@ -489,6 +475,9 @@ function Crud() {
             }
 
             showNotification("Product Updated successfully");
+            setIsButtonEnabled(true);
+            setIsButtonAddEnabled(true);
+            getProducts();
             setEditMode(false);
             setShowAddForm(false);
         } catch (error) {
@@ -520,7 +509,7 @@ function Crud() {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                }
+                },
             );
 
             if (deleteResponse.status === 200) {
@@ -617,9 +606,7 @@ function Crud() {
                             <td>{product.available}</td>
                             <td>
                                 <MDBBtn
-                                    class={`custom-button ${
-                                        !isButtonEnabled ? "clicked" : ""
-                                    }`}
+                                    class={`custom-button ${!isButtonEnabled ? "clicked" : ""} mb-4 w-100`}
                                     size="lg"
                                     style={{ width: "98px" }}
                                     className="mb-4 w-100"
@@ -633,9 +620,7 @@ function Crud() {
                                     EDIT
                                 </MDBBtn>
                                 <MDBBtn
-                                    class={`custom-button ${
-                                        !isButtonEnabled ? "clicked" : ""
-                                    }`}
+                                    class={`custom-button ${!isButtonEnabled ? "clicked" : ""} mb-4 w-100`}
                                     size="lg"
                                     className="mb-4 w-100"
                                     type="submit"
@@ -800,7 +785,7 @@ function Crud() {
                                     name="sizes"
                                     value={size.id}
                                     checked={sizeFormData.sizes.includes(
-                                        size.id
+                                        size.id,
                                     )}
                                     onChange={handleChange}
                                     className="form-check-input"
