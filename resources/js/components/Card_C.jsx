@@ -45,41 +45,42 @@ function Card_C(props) {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleButtonClick = () => {
-        // DEACTIVATE CART BUTTON
-
         if (!userId) {
             showNotification(
-                "You need to sign in to add products to the cart."
+                "You need to sign in to add products to the cart.",
             );
             setIsButtonDisabled(true);
             return;
         }
 
-        // OBJECT WITH PRODUCT INFO
+        // Limpiamos productData para enviar solo lo que la base de datos necesita
+        // Mandar descripción o imágenes por POST es innecesario si Laravel ya las tiene
         const productData = {
+            user_id: userId, // <--- Ahora lo enviamos aquí
             product_id: props.id,
-            name: props.name,
-            price: props.price,
-            description: props.description,
-            images: props.images,
-            available: props.available,
+            quantity: 1, // <--- Especificamos que añadimos 1 por cada clic
         };
 
         // ADD PRODUCT TO CART
         axios
-            .post(`/api/addcart/${userId}`, productData, {
+            .post(`/api/addcart`, productData, {
+                // <--- URL limpia sin el ${userId}
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
             .then((response) => {
-                console.log(response.data); // RESPONSE INFO
+                console.log("Respuesta del servidor:", response.data);
                 showNotification("Product added to Cart!");
+
+                // Opcional: Si quieres que el usuario pueda seguir añadiendo,
+                // no deshabilites el botón o usa un temporizador.
+                setTimeout(() => setIsButtonDisabled(false), 1000);
             })
             .catch((error) => {
                 console.error("Error adding product to cart:", error);
                 showNotification("Error adding product to cart!");
-                // Manejar el error aquí
+                setIsButtonDisabled(false);
             });
 
         setIsButtonDisabled(true);

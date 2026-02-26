@@ -10,6 +10,7 @@ use App\Models\ProductSizes;
 use App\Models\ProductColors;
 use App\Models\Category;
 use App\Models\Size;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        Artisan::call('passport:install', ['--force' => true]);
 
         $this->call(UserSeeder::Class);
         $this->call(CategorySeeder::Class);

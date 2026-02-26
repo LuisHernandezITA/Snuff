@@ -31,8 +31,14 @@ Route::get('/student_edit', [StudentController::class, 'edit']);
 Route::post('/student_update', [StudentController::class, 'edit']);
 Route::post('/program_store', [ProgramController::class, 'store']);
 
-Route::post('/users_store', [UserController::class, 'store'])->middleware('web');
+//Route::post('/users_store', [UserController::class, 'store'])->middleware('web');
+Route::post('/register', [UserController::class, 'store']);
 
 
 
-Route::view('/{path?}', 'welcome') ->where('path', '.*');
+//Nuevocomentario Route::view('/{path?}', 'welcome') ->where('path', '.*');
+
+// En web.php (al final de todo)
+Route::get('/{any}', function () {
+    return view('welcome');
+})->where('any', '^(?!api).*$');

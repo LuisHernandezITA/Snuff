@@ -195,38 +195,102 @@ border-bottom-right-radius: 16px;
 
 /*PRODUCT DESCRIPTION*/
 
-.app{
-  max-width: 1200px;
-  width: 100%;
-  margin: 40px auto;
-  box-shadow: 0 0 5px #ccc;
-}
-.details{
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  padding: 40px 0px 0px 0px;
-}
-.details .big-img{
-  max-width: 700px;
-  min-width: 400px;
-  overflow: hidden;
-  margin: 25px;
-  padding: 0px 0px 0px 20px;
-}
-.big-img img{
-  width: 100%;
-  height: 100%;
-  max-height: 400px;
-  display: block;
-  object-fit: cover;
+.details {
+    display: flex;
+    justify-content: center; /* Centrado por defecto para móvil */
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px; /* Espacio entre imagen y texto */
 }
 
-.details .box{
-  max-width: 500px;
-  min-width: 290px;
-  margin: 25px;
+.details .big-img {
+    flex: 1 1 400px; /* Permite que crezca y se encoja, base ideal 400px */
+    max-width: 600px; /* Controla que no se haga Gigante en monitores 4k */
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+.details .box {
+    flex: 1 1 300px; /* Base ideal 300px para la info */
+    max-width: 500px;
+    width: 100%;
+    margin: 0;
+}
+
+/* --- AJUSTES PARA ESCRITORIO (Pantallas grandes) --- */
+@media (min-width: 992px) {
+    .details {
+        justify-content: space-between; /* ¡Aquí está la magia! Los separa */
+        padding: 40px;
+        align-items: flex-start; /* Alinea el texto arriba junto a la imagen */
+    }
+
+    .app {
+        margin: 40px auto;
+        width: 100%; /* Recupera el ancho en PC */
+    }
+}
+
+/* --- AJUSTES PARA MÓVIL --- */
+@media (max-width: 768px) {
+    .details .big-img {
+        max-width: 100%;
+    }
+    
+    .box .row h2 {
+        font-size: 1.8rem !important;
+    }
+
+    .details {
+        gap: 10px;
+    }
+}
+
+.app {
+    max-width: 1200px;
+    width: 95%; /* Cambiado de 100% a 95% para que no toque los bordes en móvil */
+    margin: 20px auto; /* Menos margen arriba/abajo en móvil */
+    box-shadow: 0 0 5px #ccc;
+    background: #fff;
+}
+
+.big-img img {
+    width: 100%;
+    height: auto;   /* Que la altura sea proporcional */
+    max-height: 500px;
+    display: block;
+    object-fit: contain; /* 'contain' evita que se corte la imagen del producto */
+}
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .app {
+        margin: 10px auto;
+        box-shadow: none; /* Opcional: quitar sombra en móvil para limpieza */
+    }
+    
+    .details {
+        padding: 15px;
+    }
+
+    .box .row h2 {
+        font-size: 1.8em !important; /* Reducir tamaño de título en móvil */
+    }
+}
+
+/*Product Name*/
+
+.product-title-detail {
+    font-size: 2.6rem;
+}
+
+@media (max-width: 500px) {
+    .product-title-detail {
+        font-size: 1.8rem;
+    }
+}
+
 .box .row{
   display: flex;
   justify-content: space-between;
@@ -352,3 +416,31 @@ border-bottom-right-radius: 16px;
   opacity: 0.7;
 }
 
+/*MENU MOBILE*/
+
+.custom-toggler-icon .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+}
+
+/* Opcional: Quitar el borde gris del botón */
+.custom-toggler-icon {
+    border-color: rgba(255, 255, 255, 0.5) !important; /* Un borde sutil blanco */
+}
+
+/*CARROUSEL*/
+
+/* Estilo para las imágenes del carrusel */
+.custom-carousel-img {
+    width: 100%;
+    /* Altura en móviles: esto lo hará ver más "cuadrado" */
+    height: 350px; 
+    object-fit: cover; /* Recorta los lados sin estirar la imagen */
+    object-position: center; /* Asegura que el centro de la imagen sea lo visible */
+}
+
+/* Altura en pantallas grandes (Desktop) */
+@media (min-width: 992px) {
+    .custom-carousel-img {
+        height: 600px; /* O la altura que prefieras para PC */
+    }
+}

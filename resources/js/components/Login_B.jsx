@@ -76,8 +76,8 @@ function Login_B() {
                 value.trim() === ""
                     ? "* Email is required"
                     : !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-                    ? "* Invalid email address"
-                    : "";
+                      ? "* Invalid email address"
+                      : "";
         } else if (name === "password") {
             newErrors[name] =
                 value.trim() === "" ? "* Password is required" : "";
@@ -86,8 +86,8 @@ function Login_B() {
                 value.trim() === ""
                     ? "* Confirm Password is required"
                     : value !== formData.password
-                    ? "* Passwords do not match"
-                    : "";
+                      ? "* Passwords do not match"
+                      : "";
         }
 
         setErrors(newErrors);
@@ -107,14 +107,20 @@ function Login_B() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setIsButtonEnabled(false); // Deshabilitar al empezar
+
+        const loginData = {
+            email: formData.email,
+            password: formData.password,
+        };
 
         try {
-            const response = await fetch("/api/login", {
+            const response = await fetch("http://127.0.0.1:8000/api/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(loginData), // Enviamos loginData, no formData
             });
 
             if (response.ok) {
@@ -128,9 +134,8 @@ function Login_B() {
                     //console.log("User data:", user);
                     document.cookie = `user_id=${user.user_id}; path=/`;
 
-                    axios.defaults.headers.common[
-                        "Authorization"
-                    ] = `Bearer ${user.token}`;
+                    axios.defaults.headers.common["Authorization"] =
+                        `Bearer ${user.token}`;
 
                     setTimeout(() => {
                         window.location.href = "/";
@@ -138,15 +143,15 @@ function Login_B() {
                 }
             } else {
                 showNotification("Login error. Verify your data.");
+                setIsButtonEnabled(true); // <--- REACTIVAR AQUÍ
                 setTimeout(() => {
                     window.location.href = "/Login_B";
                 }, 1500);
             }
         } catch (error) {
+            console.error("ERROR DETALLADO:", error); // <-- AGREGA ESTO
             showNotification("Network Error.");
-            setTimeout(() => {
-                window.location.href = "/Login_B";
-            }, 1500);
+            setIsButtonEnabled(true);
         }
     };
 
@@ -156,7 +161,7 @@ function Login_B() {
         e.preventDefault();
 
         try {
-            const response = await fetch("/api/register", {
+            const response = await fetch("http://127.0.0.1:8000/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -171,9 +176,9 @@ function Login_B() {
                 }, 1500);
             } else {
                 showNotification("Register error. Verify your data.");
-                setTimeout(() => {
+                /*setTimeout(() => {
                     window.location.href = "/Login_B";
-                }, 1500);
+                }, 1500);*/
             }
         } catch (error) {
             showNotification("Network Error.");
@@ -254,7 +259,7 @@ function Login_B() {
                             className="mb-4 w-100"
                             type="submit"
                             disabled={!isButtonEnabled}
-                            onClick={handleButtonClick}
+                            //onClick={handleButtonClick}
                         >
                             Sign in
                         </MDBBtn>

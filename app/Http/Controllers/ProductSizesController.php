@@ -12,14 +12,17 @@ use App\Models\Size;
 class ProductSizesController extends Controller
 {
     public function getProductSizes(Request $request) {
+        // Obtenemos los IDs de las tallas relacionadas
         $sizeIds = ProductSizes::where('product_id', $request->id)->pluck('size_id');
     
         if ($sizeIds->isNotEmpty()) {
             $names = Size::whereIn('id', $sizeIds)->pluck('name');
-    
-            return $names;
+            // Devolvemos los nombres con un 200 OK explícito
+            return response()->json($names, 200);
         } else {
-            return response()->json(['message' => 'Theres no sizes available for the specified product'], 404);
+            // En lugar de 404, devolvemos un array vacío [] con 200 OK
+            // Así React recibirá un array de longitud 0 y no saltará al catch
+            return response()->json([], 200);
         }
     }
 

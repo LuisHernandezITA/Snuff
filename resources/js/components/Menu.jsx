@@ -67,78 +67,111 @@ function Menu() {
 
     return (
         <>
-            <Navbar className="navbar navbar-expand-lg bg-dark navbar-dark">
+            <Navbar
+                collapseOnSelect
+                expand="lg"
+                className="bg-dark navbar-dark"
+                variant="dark"
+            >
                 <Container>
                     <Navbar.Brand as={Link} to="">
                         <img
-                            alt=""
+                            alt="Logo"
                             src="/img/logosmc.svg"
                             width="150"
                             height="45"
                             className="d-inline-block align-top logo"
-                        />{" "}
+                        />
                     </Navbar.Brand>
 
-                    <Nav>
-                        {userName ? (
-                            userAdmin ? (
-                                <Nav>
-                                    <Nav.Link as={Link} to="">
-                                        {userName} Mode
-                                    </Nav.Link>
-                                    <Nav.Link as={Link} to="Crud">
-                                        Products
-                                    </Nav.Link>
-                                </Nav>
-                            ) : (
-                                <Nav.Link as={Link} to="">
-                                    Hi, {userName}
-                                </Nav.Link>
-                            )
-                        ) : (
-                            <p></p>
-                        )}
-                        <Nav.Link as={Link} to="">
-                            Home
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="ListCard">
-                            Catalogue
-                        </Nav.Link>
-                        {notification && (
-                            <div
-                                className={`notification ${
-                                    notificationVisible ? "show" : ""
-                                }`}
-                            >
-                                {notification}
-                                <div className="notification-bar"></div>
-                            </div>
-                        )}
-                        {userName ? ( // CHANGES IF USER IS LOGGED
-                            <Nav.Link onClick={handleLogout} title="Logout">
-                                <MDBIcon
-                                    fas
-                                    icon="user-slash"
-                                    className="icon"
-                                />
-                            </Nav.Link>
-                        ) : (
-                            <Nav.Link as={Link} to="Login_B" title="Login">
-                                <MDBIcon fas icon="user" className="icon" />
-                            </Nav.Link>
-                        )}
+                    <Navbar.Toggle
+                        aria-controls="responsive-navbar-nav"
+                        className="custom-toggler-icon"
+                    />
 
-                        <Nav.Link as={Link} to="Cart" title="Shopping Cart">
-                            <MDBIcon
-                                fas
-                                icon="shopping-cart"
-                                className="icon"
-                            />
-                        </Nav.Link>
-                    </Nav>
+                    {/* CONTENIDO COLAPSABLE */}
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="ms-auto align-items-center">
+                            {/* LÓGICA DE USUARIO / ADMIN */}
+                            {userName ? (
+                                userAdmin ? (
+                                    <>
+                                        <Nav.Link as={Link} to="">
+                                            {userName} Mode
+                                        </Nav.Link>
+                                        <Nav.Link as={Link} to="Crud">
+                                            Products
+                                        </Nav.Link>
+                                    </>
+                                ) : (
+                                    <Nav.Link as={Link} to="">
+                                        Hi, {userName}
+                                    </Nav.Link>
+                                )
+                            ) : null}
+
+                            {/* ENLACES GENERALES */}
+                            <Nav.Link as={Link} to="">
+                                Home
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="ListCard">
+                                Catalogue
+                            </Nav.Link>
+
+                            {/* ICONOS DE ACCIÓN (LOGIN/LOGOUT Y CARRITO) */}
+
+                            <div className="d-flex align-items-center gap-3 px-3">
+                                <Nav.Link
+                                    as={Link}
+                                    to="Cart"
+                                    title="Shopping Cart"
+                                >
+                                    <MDBIcon
+                                        fas
+                                        icon="shopping-cart"
+                                        className="icon"
+                                    />
+                                </Nav.Link>
+                                {userName ? (
+                                    <Nav.Link
+                                        onClick={handleLogout}
+                                        title="Logout"
+                                    >
+                                        <MDBIcon
+                                            fas
+                                            icon="user-slash"
+                                            className="icon"
+                                        />
+                                    </Nav.Link>
+                                ) : (
+                                    <Nav.Link
+                                        as={Link}
+                                        to="Login_B"
+                                        title="Login"
+                                    >
+                                        <MDBIcon
+                                            fas
+                                            icon="user"
+                                            className="icon"
+                                        />
+                                    </Nav.Link>
+                                )}
+                            </div>
+                        </Nav>
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
-
+            {/* NOTIFICACIONES (FUERA DEL NAVBAR) */}
+            {notification && (
+                <div
+                    className={`notification ${
+                        notificationVisible ? "show" : ""
+                    }`}
+                >
+                    {notification}
+                    <div className="notification-bar"></div>
+                </div>
+            )}
             {showCarousel && <Carrousel />}
             {!hideListCardNewest && showCarousel && (
                 <p className="labelnew">- NEW ARRIVALS! -</p>
@@ -150,14 +183,12 @@ function Menu() {
                         SEE ALL <i class="fas fa-eye"></i>
                     </Link>
                 </div>
-            )}
-
+            )}{" "}
             <section>
                 <Container>
                     <Outlet></Outlet>
                 </Container>
             </section>
-
             <Footer />
         </>
     );

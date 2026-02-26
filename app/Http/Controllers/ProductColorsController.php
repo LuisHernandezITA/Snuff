@@ -14,16 +14,19 @@ class ProductColorsController extends Controller
     {
 
     public function getProductColors(Request $request) {
-        $colorIds = ProductColors::where('product_id', $request->id)->pluck('color_id');
-    
-        if ($colorIds->isNotEmpty()) {
-            $names = Color::whereIn('id', $colorIds)->pluck('name');
-    
-            return $names;
-        } else {
-            return response()->json(['message' => 'No se encontraron colores para el producto especificado.'], 404);
-        }
-    }
+    // 1. Obtenemos los IDs de los colores
+    $colorIds = ProductColors::where('product_id', $request->id)->pluck('color_id');
+
+    // 2. Si hay IDs, buscamos los nombres. Si no, devolvemos un array vacío []
+    if ($colorIds->isNotEmpty()) {
+        $names = Color::whereIn('id', $colorIds)->pluck('name');
+        return response()->json($names, 200);
+    } 
+
+    // DEVOLVEMOS 200 (Éxito) pero con lista vacía. 
+    // Esto evita que React explote con un 404.
+    return response()->json([], 200);
+}
 
     public function store(Request $request)
 {

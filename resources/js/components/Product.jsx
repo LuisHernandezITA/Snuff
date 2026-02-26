@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
+import { MDBTypography, MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 import smallImage from "/public/favicon.ico";
 import { useUser } from "./UserContext";
 import "/resources/css/app.css";
+import { Link } from "react-router-dom";
 
 function Product() {
     const { id } = useParams();
@@ -45,39 +46,52 @@ function Product() {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleButtonClick = () => {
+        // 1. Verificación básica en el Front
         if (!userId) {
             setIsButtonDisabled(true);
             showNotification(
-                "You need to sign in to add products to the cart."
+                "You need to sign in to add products to the cart.",
             );
-            setIsButtonDisabled(false);
+            setTimeout(() => setIsButtonDisabled(false), 2000);
             return;
         }
 
-        // BUILDS PRODUCT
+        // 2. Construcción de datos para el Body
         const productData = {
+            user_id: userId,
             product_id: product.id,
+            quantity: 1,
         };
 
-        // ADD PRODUCT TO CART
+        setIsButtonDisabled(true);
+
+        // 3. Petición POST (Sin tokens manuales)
+        // Nota: Si usas Sanctum/Web, asegúrate de que Axios tenga withCredentials: true
         axios
-            .post(`/api/addcart/${userId}`, productData)
+            .post(`/api/addcart`, productData)
             .then((response) => {
-                console.log(response.data);
+                console.log("Servidor dice:", response.data);
                 showNotification("Product added to Cart!");
+
+                // Reactivamos para que pueda agregar más si gusta
+                setTimeout(() => setIsButtonDisabled(false), 1000);
             })
             .catch((error) => {
-                console.error("Error adding product to cart:", error);
+                console.error(
+                    "Error detallado:",
+                    error.response ? error.response.data : error.message,
+                );
+                showNotification("Error adding product to cart!");
+                setIsButtonDisabled(false);
             });
-        setIsButtonDisabled(true);
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const productResponse = await axios.post(
-                    `http://localhost:8000/api/products_show`,
-                    { id }
+                    `http://127.0.0.1:8000/api/products_show`,
+                    { id },
                 );
                 if (productResponse.data.length > 0) {
                     setProduct(productResponse.data[0]);
@@ -90,23 +104,27 @@ function Product() {
 
             try {
                 const colorsResponse = await axios.post(
-                    "http://localhost:8000/api/getProductColors",
-                    { id }
+                    "http://127.0.0.1:8000/api/getProductColors",
+                    { id },
                 );
-                if (colorsResponse.data.length > 0) {
+                // Verificamos que sea un array y tenga contenido
+                if (
+                    Array.isArray(colorsResponse.data) &&
+                    colorsResponse.data.length > 0
+                ) {
                     setColors(colorsResponse.data);
                 } else {
-                    setColors(null);
+                    setColors([]); // Es mejor usar [] que null para evitar errores al hacer .map()
                 }
             } catch (error) {
-                console.error(error);
-                setColors(null);
+                console.error("Error en colores:", error);
+                setColors([]);
             }
 
             try {
                 const sizesResponse = await axios.post(
-                    "http://localhost:8000/api/getProductSizes",
-                    { id }
+                    "http://127.0.0.1:8000/api/getProductSizes",
+                    { id },
                 );
                 if (sizesResponse.data.length > 0) {
                     setSizes(sizesResponse.data);
@@ -149,7 +167,10 @@ function Product() {
                 </div>
                 <div className="box">
                     <div className="row">
-                        <h2 style={{ color: "black", fontSize: "2.6em" }}>
+                        <h2
+                            className="product-title-detail"
+                            style={{ color: "black" }}
+                        >
                             {product.name}
                         </h2>
                         <span>$ {product.price} MXN</span>
@@ -247,14 +268,29 @@ function Product() {
             <img
                 src={smallImage}
                 alt="Small Image"
+                className="d-none d-md-block" // ESTO: La oculta en móviles y la muestra en tablets/PC
                 style={{
                     position: "absolute",
                     bottom: "20px",
                     right: "20px",
-                    maxWidth: "100%",
+                    width: "40px", // Dale un tamaño fijo pequeño
                     height: "auto",
                 }}
             />
+
+            <div className="d-flex align-items-center py-4">
+                <MDBTypography tag="h6" className="mb-0 ms-5">
+                    {" "}
+                    <Link
+                        to="/"
+                        className="text-body d-flex align-items-center"
+                        style={{ textDecoration: "none" }}
+                    >
+                        <MDBIcon fas icon="long-arrow-alt-left me-2" />
+                        Back to shop
+                    </Link>
+                </MDBTypography>
+            </div>
             {notification && (
                 <div
                     className={`notification ${

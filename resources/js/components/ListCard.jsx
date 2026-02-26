@@ -16,7 +16,7 @@ function ListCard() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:8000/api/products_index"
+                    "http://127.0.0.1:8000/api/products_index", // Antes localhost
                 );
                 setProductData(response.data);
             } catch (error) {
@@ -27,7 +27,7 @@ function ListCard() {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:8000/api/category_index"
+                    "http://127.0.0.1:8000/api/category_index",
                 );
                 setCategories(response.data);
             } catch (error) {
@@ -53,17 +53,17 @@ function ListCard() {
             filteredProducts = [...productData];
         } else {
             filteredProducts = productData.filter(
-                (product) => product.category_id === selectedCategory
+                (product) => product.category_id === selectedCategory,
             );
         }
 
         if (sortByPrice === "asc") {
             return filteredProducts.sort(
-                (a, b) => parseFloat(a.price) - parseFloat(b.price)
+                (a, b) => parseFloat(a.price) - parseFloat(b.price),
             );
         } else if (sortByPrice === "desc") {
             return filteredProducts.sort(
-                (a, b) => parseFloat(b.price) - parseFloat(a.price)
+                (a, b) => parseFloat(b.price) - parseFloat(a.price),
             );
         } else {
             return filteredProducts;

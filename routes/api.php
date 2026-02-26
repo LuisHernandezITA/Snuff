@@ -38,9 +38,15 @@ Route::get('/color_index', [ColorController::class, 'index']);
 Route::get('/size_index', [SizeController::class, 'index']);
 Route::post('/user_show', [UserController::class, 'show']);
 
+Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
+
+
+
+//Route::post('/getProductsInCart', [ShoppingCartController::class, 'getProductsInCart']);
+
 // AUTH ROUTES
 Route::middleware(['auth:api'])->group(function () {
-    Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
+    
     Route::get('/user_index', [UserController::class, 'index']);
     Route::get('/accesstokens_index', [AccessTokensController::class, 'index']);
     Route::delete('/accesstokens/destroy', [AccessTokensController::class, 'destroy']);
@@ -52,13 +58,15 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('/productcolors_destroy/{id}', [ProductColorsController::class, 'destroy']);
     Route::post('/productsizes_store', [ProductSizesController::class, 'store']);
     Route::delete('/productsizes_destroy/{id}', [ProductSizesController::class, 'destroy']);
-    Route::post('/addcart/{user_id}', [ShoppingCartController::class, 'addToCart']);
+    
+    Route::post('/addcart', [ShoppingCartController::class, 'addToCart']);
     Route::post('/getProductsInCart', [ShoppingCartController::class, 'getProductsInCart']);
-
+    Route::post('/updateQuantity', [ShoppingCartController::class, 'updateQuantity']);
+    Route::post('/removeProductFromCart', [ShoppingCartController::class, 'removeProductFromCart']);
 });
 
 //Route::middleware('auth:api')->get('/index', 'app\Http\Controllers\UserController@index');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});Nuevo comentado*/

@@ -27,7 +27,7 @@ function Cart() {
     useEffect(() => {
         // EXECUTES IF USER IS AUTH
         if (isLoggedIn) {
-            fetch("http://localhost:8000/api/getProductsInCart", {
+            fetch("http://127.0.0.1:8000/api/getProductsInCart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,69 +48,60 @@ function Cart() {
         const total = products.reduce(
             (accumulator, product) =>
                 accumulator + product.price * product.quantity,
-            0
+            0,
         );
         setTotalPrice(total);
     };
 
     const handleQuantityChange = (productId, newQuantity) => {
-        // UPDATE QUANTITY
-        const updatedProducts = cartProducts.map((product) =>
-            product.id === productId
-                ? { ...product, quantity: newQuantity }
-                : product
-        );
+        // 1. Actualización Visual Inmediata (Optimistic UI)
+        // Si la cantidad es 0, lo filtramos de una vez para que desaparezca de la vista
+        if (newQuantity <= 0) {
+            const filtered = cartProducts.filter((p) => p.id !== productId);
+            setCartProducts(filtered);
+            updateTotalPrice(filtered);
+        } else {
+            const updated = cartProducts.map((p) =>
+                p.id === productId ? { ...p, quantity: newQuantity } : p,
+            );
+            setCartProducts(updated);
+            updateTotalPrice(updated);
+        }
 
-        // FILTER PRODUCTS
-        const filteredProducts = updatedProducts.filter(
-            (product) => product.quantity > 0
-        );
-
-        setCartProducts(filteredProducts);
-        updateTotalPrice(filteredProducts);
-
-        // UPDATE QUANTITY
-        fetch("http://localhost:8000/api/updateQuantity", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+        // 2. Petición al Backend usando Axios (Sincronizado con tu controlador)
+        axios
+            .post("http://127.0.0.1:8000/api/updateQuantity", {
                 user_id: userId,
                 product_id: productId,
-                quantity: newQuantity,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => console.log(data.message))
-            .catch((error) => console.error("Error updating quantity:", error));
+                quantity: newQuantity, // Tu controlador maneja si es > 0 (update) o 0 (delete)
+            })
+            .then((response) => {
+                console.log("Servidor dice:", response.data.message);
+            })
+            .catch((error) => {
+                console.error("Error al actualizar cantidad:", error);
+                // Opcional: Aquí podrías recargar los productos si hubo error para revertir el cambio visual
+            });
     };
 
     const handleRemoveFromCart = (productId) => {
-        // DELETE PRODUCT FROM CART
-        fetch("http://localhost:8000/api/removeProductFromCart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+        // Borrado visual
+        const updated = cartProducts.filter((p) => p.id !== productId);
+        setCartProducts(updated);
+        updateTotalPrice(updated);
+
+        // Borrado en BD
+        axios
+            .post("http://127.0.0.1:8000/api/removeProductFromCart", {
                 user_id: userId,
                 product_id: productId,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.message);
-                // UPDATES PRODUCT CART LIST
-                const updatedProducts = cartProducts.filter(
-                    (product) => product.id !== productId
-                );
-                setCartProducts(updatedProducts);
-                updateTotalPrice(updatedProducts);
             })
-            .catch((error) =>
-                console.error("Error removing product from cart:", error)
-            );
+            .then((response) => {
+                console.log(response.data.message);
+            })
+            .catch((error) => {
+                console.error("Error al eliminar:", error);
+            });
     };
 
     return (
@@ -175,43 +166,37 @@ function Cart() {
                                             xl="3"
                                             className="d-flex align-items-center"
                                         >
+                                            {/* BOTÓN MENOS */}
                                             <MDBBtn
                                                 color="link"
                                                 className="px-2"
                                                 onClick={() =>
                                                     handleQuantityChange(
                                                         product.id,
-                                                        product.quantity - 1
+                                                        product.quantity - 1,
                                                     )
                                                 }
-                                                disabled={product.quantity <= 0}
                                             >
                                                 <MDBIcon fas icon="minus" />
                                             </MDBBtn>
 
+                                            {/* INPUT */}
                                             <MDBInput
                                                 type="number"
-                                                min="0"
+                                                readOnly
                                                 value={product.quantity}
                                                 size="sm"
-                                                onChange={(e) =>
-                                                    handleQuantityChange(
-                                                        product.id,
-                                                        parseInt(
-                                                            e.target.value,
-                                                            10
-                                                        )
-                                                    )
-                                                }
+                                                className="text-center"
                                             />
 
+                                            {/* BOTÓN MÁS */}
                                             <MDBBtn
                                                 color="link"
                                                 className="px-2"
                                                 onClick={() =>
                                                     handleQuantityChange(
                                                         product.id,
-                                                        product.quantity + 1
+                                                        product.quantity + 1,
                                                     )
                                                 }
                                             >
@@ -242,7 +227,7 @@ function Cart() {
                                                 className="text-muted"
                                                 onClick={() =>
                                                     handleRemoveFromCart(
-                                                        product.id
+                                                        product.id,
                                                     )
                                                 }
                                             >
