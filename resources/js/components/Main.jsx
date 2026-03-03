@@ -7,18 +7,20 @@ import Cart from "./Cart";
 import Product from "./Product";
 import Crud from "./Crud";
 import CrudCategory from "./CrudCategory";
+import CrudBanner from "./CrudBanner";
 
 function Main() {
     return (
         <>
             <Routes>
                 <Route path="/" element={<Menu />}>
-                    <Route path="Product/:id" element={<Product />} />
-                    <Route path="Crud" element={<Crud />} />
-                    <Route path="CrudCategory" element={<CrudCategory />} />
-                    <Route path="ListCard" element={<ListCard />} />
-                    <Route path="Login_B" element={<Login_B />} />
-                    <Route path="Cart" element={<Cart />} />
+                    <Route path="item/:id" element={<Product />} />
+                    <Route path="products" element={<Crud />} />
+                    <Route path="categories" element={<CrudCategory />} />
+                    <Route path="banners" element={<CrudBanner />} />
+                    <Route path="store" element={<ListCard />} />
+                    <Route path="login" element={<Login_B />} />
+                    <Route path="cart" element={<Cart />} />
                     <Route path="*" element={<Navigate replace to="/" />} />
                 </Route>
             </Routes>

@@ -10,32 +10,31 @@ import {
 function Footer() {
     return (
         <MDBFooter
-            bgColor="light"
-            className="text-center text-lg-start text-muted"
+            className="text-center text-lg-start text-white" // Cambiamos text-muted por text-white
+            style={{ backgroundColor: "rgb(18, 18, 18)" }} // Aplicamos tu color
         >
-            <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            {/* Sección de redes sociales con borde sutil */}
+            <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom border-secondary">
                 <div className="me-5 d-none d-lg-block">
-                    <span></span>
+                    <span>Get connected with us on social networks:</span>
                 </div>
 
                 <div>
+                    {/* Cambié color="secondary" por "light" para que resalten en el fondo oscuro */}
                     <a href="" className="me-4 text-reset">
-                        <MDBIcon color="secondary" fab icon="facebook-f" />
+                        <MDBIcon fab icon="facebook-f" color="light" />
                     </a>
                     <a href="" className="me-4 text-reset">
-                        <MDBIcon color="secondary" fab icon="twitter" />
+                        <MDBIcon fab icon="twitter" color="light" />
                     </a>
                     <a href="" className="me-4 text-reset">
-                        <MDBIcon color="secondary" fab icon="google" />
+                        <MDBIcon fab icon="google" color="light" />
                     </a>
                     <a href="" className="me-4 text-reset">
-                        <MDBIcon color="secondary" fab icon="instagram" />
+                        <MDBIcon fab icon="instagram" color="light" />
                     </a>
                     <a href="" className="me-4 text-reset">
-                        <MDBIcon color="secondary" fab icon="linkedin" />
-                    </a>
-                    <a href="" className="me-4 text-reset">
-                        <MDBIcon color="secondary" fab icon="github" />
+                        <MDBIcon fab icon="github" color="light" />
                     </a>
                 </div>
             </section>
@@ -46,17 +45,21 @@ function Footer() {
                         <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
                             <h6 className="text-uppercase fw-bold mb-4">
                                 <img
-                                    alt=""
+                                    alt="Logo"
                                     src="/img/logosmc.svg"
                                     width="120"
                                     height="60"
                                     className="d-inline-block align-top"
-                                />{" "}
+                                    style={{
+                                        filter: "brightness(0) invert(1)",
+                                    }} // Si el logo es negro, esto lo hace blanco
+                                />
                             </h6>
-                            <p>
-                                Here you can use rows and columns to organize
-                                your footer content. Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit.
+                            <p className="text-white-50">
+                                {" "}
+                                {/* Texto un poco más suave que el blanco puro */}
+                                Your store description goes here. Elevating
+                                Mexican culture through premium snuff products.
                             </p>
                         </MDBCol>
 
@@ -65,23 +68,18 @@ function Footer() {
                                 Products
                             </h6>
                             <p>
-                                <a href="#!" className="text-reset">
-                                    Angular
+                                <a href="#!" className="text-white-50">
+                                    Store
                                 </a>
                             </p>
                             <p>
-                                <a href="#!" className="text-reset">
-                                    React
+                                <a href="#!" className="text-white-50">
+                                    New Arrivals
                                 </a>
                             </p>
                             <p>
-                                <a href="#!" className="text-reset">
-                                    Vue
-                                </a>
-                            </p>
-                            <p>
-                                <a href="#!" className="text-reset">
-                                    Laravel
+                                <a href="#!" className="text-white-50">
+                                    Featured
                                 </a>
                             </p>
                         </MDBCol>
@@ -91,22 +89,17 @@ function Footer() {
                                 Useful links
                             </h6>
                             <p>
-                                <a href="#!" className="text-reset">
+                                <a href="#!" className="text-white-50">
                                     Pricing
                                 </a>
                             </p>
                             <p>
-                                <a href="#!" className="text-reset">
-                                    Settings
-                                </a>
-                            </p>
-                            <p>
-                                <a href="#!" className="text-reset">
+                                <a href="#!" className="text-white-50">
                                     Orders
                                 </a>
                             </p>
                             <p>
-                                <a href="#!" className="text-reset">
+                                <a href="#!" className="text-white-50">
                                     Help
                                 </a>
                             </p>
@@ -123,50 +116,43 @@ function Footer() {
                             </h6>
                             <p>
                                 <MDBIcon
-                                    color="secondary"
                                     icon="home"
                                     className="me-2"
-                                />
-                                New York, NY 10012, US
+                                    color="light"
+                                />{" "}
+                                Mexico City, MX
                             </p>
                             <p>
                                 <MDBIcon
-                                    color="secondary"
                                     icon="envelope"
                                     className="me-3"
-                                />
-                                info@example.com
+                                    color="light"
+                                />{" "}
+                                info@snuffmexa.com
                             </p>
                             <p>
                                 <MDBIcon
-                                    color="secondary"
                                     icon="phone"
                                     className="me-3"
+                                    color="light"
                                 />{" "}
-                                + 01 234 567 88
-                            </p>
-                            <p>
-                                <MDBIcon
-                                    color="secondary"
-                                    icon="print"
-                                    className="me-3"
-                                />{" "}
-                                + 01 234 567 89
+                                + 52 55 1234 5678
                             </p>
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
             </section>
 
+            {/* Copyright con un tono de negro ligeramente distinto para dar profundidad */}
             <div
                 className="text-center p-4"
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
+                style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.2)",
+                    borderTop: "1px solid rgba(255, 255, 255, 0.05)",
+                }}
             >
-                © 2023 Copyright:
-                <a
-                    className="text-reset fw-bold"
-                    href="https://mdbootstrap.com/"
-                >
+                © 2026 Copyright:
+                <a className="text-reset fw-bold ms-1" href="#">
                     Snuff Mexa Cult
                 </a>
             </div>

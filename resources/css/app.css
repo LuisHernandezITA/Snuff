@@ -430,12 +430,14 @@ border-bottom-right-radius: 16px;
 /*CARROUSEL*/
 
 /* Estilo para las imágenes del carrusel */
+
 .custom-carousel-img {
     width: 100%;
     /* Altura en móviles: esto lo hará ver más "cuadrado" */
-    height: 350px; 
+    height: 550px; 
     object-fit: cover; /* Recorta los lados sin estirar la imagen */
     object-position: center; /* Asegura que el centro de la imagen sea lo visible */
+    filter: brightness(0.7);
 }
 
 /* Altura en pantallas grandes (Desktop) */
@@ -443,4 +445,30 @@ border-bottom-right-radius: 16px;
     .custom-carousel-img {
         height: 600px; /* O la altura que prefieras para PC */
     }
+}
+
+/* Estilo base del Navbar */
+.navbar-custom {
+    background-color: #000000 !important; /* Negro puro inicial */
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+    padding: 10px 0;
+}
+
+/* Efecto Vidrio Negro Transparente */
+/* Se activa cuando hay contenido detrás o puedes usar JS para cambiar la clase al bajar */
+.navbar-custom {
+    background-color: rgb(18, 18, 18) !important; /* Negro con 70% de opacidad */
+    backdrop-filter: blur(10px); /* El efecto de desenfoque/vidrio */
+    -webkit-backdrop-filter: blur(10px); /* Compatibilidad con Safari */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea sutil elegante */
+}
+
+/* Ajuste para que el contenido de la página no se oculte tras el navbar fixed */
+body {
+    padding-top: 70px; /* Ajusta según la altura de tu logo */
+}
+
+.navbar-custom.scrolled {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(15px);
 }

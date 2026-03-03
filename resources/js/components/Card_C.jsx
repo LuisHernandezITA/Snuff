@@ -88,7 +88,7 @@ function Card_C(props) {
 
     return (
         <Card className="my-card">
-            <Link to={`/Product/${id}`}>
+            <Link to={`/item/${id}`}>
                 <div className="my-card-img-container">
                     {!available && (
                         <div className="sold-out-badge">SOLD OUT</div>

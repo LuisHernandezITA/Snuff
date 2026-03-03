@@ -18,6 +18,20 @@ function Menu() {
     const userName = userInfo ? userInfo.name : ""; // Obtén el nombre del usuario desde el contexto.
     const userAdmin = userInfo ? userInfo.admin : "";
 
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 300) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     //NOTIFICATIONS
 
     const [notification, setNotification] = useState(null);
@@ -50,15 +64,16 @@ function Menu() {
         }, 1500);
     };
 
-    const hideListCardNewest = location.pathname === "/ListCard";
+    const hideListCardNewest = location.pathname === "/store";
     useEffect(() => {
         // VERIFIES LOCATION "Login_B"
         if (
-            location.pathname === "/Login_B" ||
-            location.pathname === "/Cart" ||
-            location.pathname === "/Crud" ||
-            location.pathname === "/CrudCategory" ||
-            location.pathname.startsWith("/Product")
+            location.pathname === "/login" ||
+            location.pathname === "/cart" ||
+            location.pathname === "/products" ||
+            location.pathname === "/categories" ||
+            location.pathname === "/banners" ||
+            location.pathname.startsWith("/item")
         ) {
             setShowCarousel(false);
         } else {
@@ -71,8 +86,11 @@ function Menu() {
             <Navbar
                 collapseOnSelect
                 expand="lg"
-                className="bg-dark navbar-dark"
+                fixed="top" // Mantiene el navbar siempre arriba
                 variant="dark"
+                className={
+                    scrolled ? "navbar-custom scrolled" : "navbar-custom"
+                } // Clase personalizada para el CSS
             >
                 <Container>
                     <Navbar.Brand as={Link} to="">
@@ -98,17 +116,18 @@ function Menu() {
                                 userAdmin ? (
                                     <>
                                         <Nav.Link>{userName} Mode</Nav.Link>
-                                        <Nav.Link as={Link} to="CrudCategory">
+                                        <Nav.Link as={Link} to="banners">
+                                            Banners
+                                        </Nav.Link>
+                                        <Nav.Link as={Link} to="categories">
                                             Categories
                                         </Nav.Link>
-                                        <Nav.Link as={Link} to="Crud">
+                                        <Nav.Link as={Link} to="products">
                                             Products
                                         </Nav.Link>
                                     </>
                                 ) : (
-                                    <Nav.Link as={Link} to="">
-                                        Hi, {userName}
-                                    </Nav.Link>
+                                    <Nav.Link>Hi, {userName}</Nav.Link>
                                 )
                             ) : null}
 
@@ -116,8 +135,8 @@ function Menu() {
                             <Nav.Link as={Link} to="">
                                 Home
                             </Nav.Link>
-                            <Nav.Link as={Link} to="ListCard">
-                                Catalogue
+                            <Nav.Link as={Link} to="store">
+                                Store
                             </Nav.Link>
 
                             {/* ICONOS DE ACCIÓN (LOGIN/LOGOUT Y CARRITO) */}
@@ -125,7 +144,7 @@ function Menu() {
                             <div className="d-flex align-items-center gap-3 px-3">
                                 <Nav.Link
                                     as={Link}
-                                    to="Cart"
+                                    to="cart"
                                     title="Shopping Cart"
                                 >
                                     <MDBIcon
@@ -148,7 +167,7 @@ function Menu() {
                                 ) : (
                                     <Nav.Link
                                         as={Link}
-                                        to="Login_B"
+                                        to="login"
                                         title="Login"
                                     >
                                         <MDBIcon
@@ -181,7 +200,7 @@ function Menu() {
             {!hideListCardNewest && showCarousel && <ListCardNewest />}
             {!hideListCardNewest && showCarousel && (
                 <div className="text-center">
-                    <Link to="/ListCard" className="ver-todo-link">
+                    <Link to="/store" className="ver-todo-link">
                         SEE ALL <i class="fas fa-eye"></i>
                     </Link>
                 </div>
