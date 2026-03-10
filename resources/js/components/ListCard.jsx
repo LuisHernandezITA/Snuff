@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Spinner, Navbar, Nav } from "react-bootstrap";
+import { Spinner, Navbar, Nav, Container } from "react-bootstrap";
 import axios from "axios";
 import Card_C from "./Card_C";
 import "/resources/css/app.css";
@@ -80,71 +80,107 @@ function ListCard() {
         );
     }
 
-    const groupedProductData = [];
-    for (let i = 0; i < getFilteredProducts().length; i += 2) {
-        groupedProductData.push(getFilteredProducts().slice(i, i + 2));
-    }
-
     return (
         <div>
             <br></br>
-            <Navbar bg="light" expand="lg">
-                <Navbar.Brand>Categories</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link onClick={() => handleCategoryChange(null)}>
-                            All
-                        </Nav.Link>
-                        {categories.map((category) => (
-                            <Nav.Link
-                                key={category.id}
-                                onClick={() =>
-                                    handleCategoryChange(category.id)
-                                }
-                            >
-                                {category.name}
-                            </Nav.Link>
-                        ))}
-                    </Nav>
-                </Navbar.Collapse>
-                <Nav className="ml-auto">
-                    <Nav.Link onClick={handleSortByPrice}>
-                        Sort by Price{"  "}
-                        {sortByPrice === "asc" ? (
-                            <FontAwesomeIcon icon={faArrowDown} />
-                        ) : (
-                            <FontAwesomeIcon icon={faArrowUp} />
-                        )}
-                    </Nav.Link>
-                </Nav>
-            </Navbar>
-
-            <div className="d-flex flex-wrap justify-content-center">
-                {groupedProductData.map((group, index) => (
-                    <div
-                        key={index}
-                        className="align-items-center justify-content-center mb-4"
-                        style={{ margin: "20px 0" }}
+            <Navbar
+                expand="lg"
+                variant="dark" // Esto hace que el texto sea blanco/claro automáticamente
+                style={{
+                    backgroundColor: "rgb(18, 18, 18)",
+                    borderBottom: "1px solid rgba(255,255,255,0.05)", // Línea sutil inferior
+                }}
+                className="shadow-sm py-3 w-100" // Añadimos una sombra sutil y un poco de padding
+            >
+                <Container className="px-4">
+                    {" "}
+                    <Navbar.Toggle
+                        aria-controls="basic-navbar-nav"
+                        className="border-0 custom-toggler d-flex align-items-center"
                     >
-                        {group.map((product) => (
-                            <div
-                                key={product.id}
-                                style={{ margin: "40px 35px" }}
+                        <span
+                            className="glitch-text" // <--- Añadimos la clase aquí
+                            style={{
+                                fontSize: "1.2rem",
+                                letterSpacing: "4px",
+                                opacity: "0.8",
+                                fontWeight: "300",
+                            }}
+                        >
+                            STORE ♱༺༒︎⊰‿̩͙
+                        </span>
+                    </Navbar.Toggle>
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            {" "}
+                            {/* En Bootstrap 5 se usa 'me-auto' en lugar de 'mr-auto' */}
+                            <Nav.Link
+                                onClick={() => handleCategoryChange(null)}
+                                className="text-uppercase small"
                             >
-                                <Card_C
-                                    id={product.id}
-                                    name={product.name}
-                                    description={product.description}
-                                    price={product.price}
-                                    images={product.images}
-                                    available={product.available}
-                                />
-                            </div>
-                        ))}
+                                All
+                            </Nav.Link>
+                            {categories.map((category) => (
+                                <Nav.Link
+                                    key={category.id}
+                                    className="text-uppercase small"
+                                    onClick={() =>
+                                        handleCategoryChange(category.id)
+                                    }
+                                >
+                                    {category.name}
+                                </Nav.Link>
+                            ))}
+                        </Nav>
+                        <Nav className="ms-auto">
+                            {" "}
+                            {/* En Bootstrap 5 se usa 'ms-auto' en lugar de 'ml-auto' */}
+                            <Nav.Link
+                                onClick={handleSortByPrice}
+                                className="small"
+                            >
+                                Sort by Price{" "}
+                                {sortByPrice === "asc" ? (
+                                    <FontAwesomeIcon
+                                        icon={faArrowDown}
+                                        className="ms-1"
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        icon={faArrowUp}
+                                        className="ms-1"
+                                    />
+                                )}
+                            </Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            <br></br>
+            <div
+                className="d-flex flex-wrap justify-content-center"
+                style={{ gap: "20px" }}
+            >
+                {getFilteredProducts().map((product) => (
+                    <div
+                        key={product.id}
+                        className="card-wrapper"
+                        style={{
+                            margin: "10px", // Separación constante en todos los lados
+                        }}
+                    >
+                        <Card_C
+                            id={product.id}
+                            name={product.name}
+                            description={product.description}
+                            price={product.price}
+                            images={product.images}
+                            available={product.available}
+                        />
                     </div>
                 ))}
             </div>
+            <br></br>
         </div>
     );
 }

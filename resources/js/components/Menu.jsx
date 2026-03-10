@@ -64,7 +64,9 @@ function Menu() {
         }, 1500);
     };
 
-    const hideListCardNewest = location.pathname === "/store";
+    const hideListCardNewest =
+        location.pathname === "/store" || location.pathname === "/music";
+
     useEffect(() => {
         // VERIFIES LOCATION "Login_B"
         if (
@@ -73,6 +75,7 @@ function Menu() {
             location.pathname === "/products" ||
             location.pathname === "/categories" ||
             location.pathname === "/banners" ||
+            location.pathname === "/songs" ||
             location.pathname.startsWith("/item")
         ) {
             setShowCarousel(false);
@@ -116,6 +119,9 @@ function Menu() {
                                 userAdmin ? (
                                     <>
                                         <Nav.Link>{userName} Mode</Nav.Link>
+                                        <Nav.Link as={Link} to="songs">
+                                            Songs
+                                        </Nav.Link>
                                         <Nav.Link as={Link} to="banners">
                                             Banners
                                         </Nav.Link>
@@ -134,6 +140,9 @@ function Menu() {
                             {/* ENLACES GENERALES */}
                             <Nav.Link as={Link} to="">
                                 Home
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="music">
+                                Music
                             </Nav.Link>
                             <Nav.Link as={Link} to="store">
                                 Store
@@ -194,19 +203,17 @@ function Menu() {
                 </div>
             )}
             {showCarousel && <Carrousel />}
-            {!hideListCardNewest && showCarousel && (
-                <p className="labelnew">- NEW ARRIVALS! -</p>
-            )}
             {!hideListCardNewest && showCarousel && <ListCardNewest />}
             {!hideListCardNewest && showCarousel && (
-                <div className="text-center">
+                <div className="text-center mb-5">
+                    {" "}
                     <Link to="/store" className="ver-todo-link">
-                        SEE ALL <i class="fas fa-eye"></i>
+                        SEE ALL <i className="fas fa-eye"></i>
                     </Link>
                 </div>
             )}{" "}
             <section>
-                <Container>
+                <Container fluid className="px-0">
                     <Outlet></Outlet>
                 </Container>
             </section>

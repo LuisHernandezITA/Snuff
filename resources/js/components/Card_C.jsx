@@ -87,7 +87,12 @@ function Card_C(props) {
     };
 
     return (
-        <Card className="my-card">
+        <Card
+            className="my-card"
+            style={{
+                backgroundColor: "#111", // Gris casi negro para despegar del fondo puro
+            }}
+        >
             <Link to={`/item/${id}`}>
                 <div className="my-card-img-container">
                     {!available && (
@@ -95,31 +100,38 @@ function Card_C(props) {
                     )}
                     <Card.Img
                         src={images}
-                        alt="Card Image"
+                        alt={firstName}
                         className={`my-card-img ${
                             !available ? "sold-out" : ""
                         }`}
                     />
                 </div>
             </Link>
-            <Card.Body>
+
+            <Card.Body className="p-3" style={{ color: "#eee" }}>
                 <Card.Title>{firstName}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
+
+                <Card.Subtitle
+                    className="mb-2 text-white-50 small"
+                    style={{ fontWeight: "300" }}
+                >
                     {description}
                 </Card.Subtitle>
-                <Card.Text>{price}</Card.Text>
-                <MDBBtn
-                    class={`custom-button ${
-                        isButtonDisabled || !available ? "clicked" : ""
-                    }`}
-                    block
-                    size="lg"
-                    onClick={handleButtonClick}
-                    disabled={isButtonDisabled || !available}
-                >
-                    <MDBIcon fas icon="shopping-cart" />{" "}
-                    {isButtonDisabled ? null : "Add to Cart"}{" "}
-                </MDBBtn>
+
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                    <span>${price}</span>
+
+                    <MDBBtn
+                        class={`custom-button ${isButtonDisabled || !available ? "clicked" : ""}`}
+                        size="lg"
+                        className="mb-4 w-100"
+                        onClick={handleButtonClick}
+                        disabled={isButtonDisabled || !available}
+                    >
+                        <MDBIcon fas icon="shopping-cart" className="me-1" />
+                        {isButtonDisabled ? "" : "ADD"}
+                    </MDBBtn>
+                </div>
             </Card.Body>
 
             {notification && (

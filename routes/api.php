@@ -13,6 +13,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\MusicController;
 
 
 
@@ -40,6 +41,7 @@ Route::get('/category_index', [CategoryController::class, 'index']);
 Route::get('/color_index', [ColorController::class, 'index']);
 Route::get('/size_index', [SizeController::class, 'index']);
 Route::get('/banners_index', [BannerController::class, 'index']);
+Route::get('/music_index', [MusicController::class, 'index']);
 
 Route::post('/getProductSizes', [ProductSizesController::class, 'getProductSizes']);
 Route::post('/getProductColors', [ProductColorsController::class, 'getProductColors']);
@@ -79,6 +81,12 @@ Route::middleware(['auth:api', 'isAdmin'])->group(function () {
     Route::post('banners_store', [BannerController::class, 'store']);
     Route::put('banners_update/{id}', [BannerController::class, 'update']);
     Route::delete('banners_destroy/{id}', [BannerController::class, 'destroy']);
+
+    // CRUD Music
+    Route::post('/music_store', [MusicController::class, 'store']);
+    Route::get('/music_edit/{id}', [MusicController::class, 'edit']);
+    Route::put('/music_update/{id}', [MusicController::class, 'update']);
+    Route::delete('/music_destroy/{id}', [MusicController::class, 'destroy']);
 
     // CRUD Productos (Completo)
     Route::get('/products/{id}/edit', [ProductsController::class, 'edit']);

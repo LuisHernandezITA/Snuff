@@ -11,21 +11,21 @@ class BannerSeeder extends Seeder
     {
         Banner::create([
             'image_url' => '/img/ban1.png',
-            'alt_text' => 'First slide description',
+            'alt_text' => 'VER MÄS',
             'link_url' => '/promo1',
             'interval' => 2000
         ]);
 
         Banner::create([
             'image_url' => '/img/ban2.png',
-            'alt_text' => 'Second slide description',
+            'alt_text' => 'COMPRA YA',
             'link_url' => '/promo2',
             'interval' => 1000
         ]);
 
         Banner::create([
             'image_url' => '/img/ban3.png',
-            'alt_text' => 'Third slide description',
+            'alt_text' => 'VER MÄS',
             'link_url' => '/promo3',
             'interval' => 2000
         ]);

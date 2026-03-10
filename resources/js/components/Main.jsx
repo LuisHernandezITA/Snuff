@@ -8,6 +8,8 @@ import Product from "./Product";
 import Crud from "./Crud";
 import CrudCategory from "./CrudCategory";
 import CrudBanner from "./CrudBanner";
+import CrudMusic from "./CrudMusic";
+import MusicBlog from "./MusicBlog";
 
 function Main() {
     return (
@@ -18,7 +20,9 @@ function Main() {
                     <Route path="products" element={<Crud />} />
                     <Route path="categories" element={<CrudCategory />} />
                     <Route path="banners" element={<CrudBanner />} />
+                    <Route path="songs" element={<CrudMusic />} />
                     <Route path="store" element={<ListCard />} />
+                    <Route path="music" element={<MusicBlog />} />
                     <Route path="login" element={<Login_B />} />
                     <Route path="cart" element={<Cart />} />
                     <Route path="*" element={<Navigate replace to="/" />} />

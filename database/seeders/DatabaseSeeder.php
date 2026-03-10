@@ -11,6 +11,7 @@ use App\Models\ProductColors;
 use App\Models\Category;
 use App\Models\Size;
 use App\Models\Banner;
+use App\Models\Music;
 use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductColorsSeeder::Class);
         $this->call(ShoppingCartSeeder::Class);
         $this->call(BannerSeeder::class);
+        $this->call(MusicSeeder::class);
         User::factory(8)->create();
     }
 }

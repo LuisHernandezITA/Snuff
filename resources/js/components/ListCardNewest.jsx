@@ -36,33 +36,31 @@ function ListCardNewest() {
         return null;
     }
 
-    const groupedProductData = [];
-    for (let i = 0; i < productData.length; i += 2) {
-        groupedProductData.push(productData.slice(i, i + 2));
-    }
-
     return (
-        <div className="d-flex flex-wrap justify-content-center">
-            {groupedProductData.map((group, index) => (
-                <div
-                    key={index}
-                    className="align-items-center justify-content-center mb-4"
-                    style={{ margin: "20px 0" }}
-                >
-                    {group.map((product) => (
-                        <div key={product.id} style={{ margin: "40px 35px" }}>
-                            <Card_C
-                                id={product.id}
-                                name={product.name}
-                                description={product.description}
-                                price={product.price}
-                                images={product.images}
-                                available={product.available}
-                            />
-                        </div>
-                    ))}
-                </div>
-            ))}
+        <div>
+            <br></br>
+            <div
+                className="d-flex flex-wrap justify-content-center px-2"
+                style={{ gap: "20px" }}
+            >
+                {productData.map((product) => (
+                    <div
+                        key={product.id}
+                        className="card-wrapper"
+                        style={{ margin: "10px" }}
+                    >
+                        <Card_C
+                            id={product.id}
+                            name={product.name}
+                            description={product.description}
+                            price={product.price}
+                            images={product.images}
+                            available={product.available}
+                        />
+                    </div>
+                ))}
+            </div>
+            <br></br>
         </div>
     );
 }

@@ -1,3 +1,20 @@
+/*FULL APP*/
+
+html, body, #root {
+    background-color: rgb(14, 14, 14) !important;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: white;
+}
+
+/*
+section, .container, .container-fluid {
+    background-color: transparent !important;
+}*/
+
+/*LOGO*/
+
 .logo {
     transition: all 0.5s; /* Smooth transition */
   }
@@ -7,31 +24,130 @@
     fill: #f3e5e5; /* Changes color */
   }
 
-  /*CARD*/
-
-  .my-card {
-    width: 300px; 
-    height: 300px; 
-    transition: transform 0.3s; 
+/* 1. Estilos Base (Comunes para PC y Móvil) */
+.my-card {
+    background-color: #111 !important;
+    border: 1px solid #222 !important;
+    border-radius: 0 !important;
+    transition: all 0.3s ease-in-out !important; /* Base para el hover */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: visible; /* Permite que la card suba en el hover */
 }
 
 .my-card-img-container {
-    height: 100%; 
-    overflow: hidden; 
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 0 !important;
+    position: relative;
 }
 
 .my-card-img {
-    transition: transform 0.3s; 
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 !important;
+    transition: transform 0.5s ease;
+}
+
+/* 2. Efectos Hover (Funcionan en ambos dispositivos, aunque se notan en PC) */
+.my-card:hover {
+    border-color: #666 !important; /* Un poco más claro para que se note */
+    transform: translateY(-10px) !important; /* Aumentado para visibilidad */
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .my-card:hover .my-card-img {
     transform: scale(1.05); 
 }
 
+/* 3. Media Query para MÓVIL (Ancho Total) */
+@media (max-width: 991px) {
+    .card-wrapper {
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+    }
+    
+    .my-card {
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    /* En móvil solemos desactivar el movimiento vertical para evitar saltos raros */
+    .my-card:hover {
+        transform: none !important; 
+    }
+}
+
+/* 4. Media Query para ESCRITORIO (400px Fijos) */
+@media (min-width: 992px) {
+    .card-wrapper {
+        width: 400px;
+        margin: 20px; /* Espaciado entre tarjetas */
+    }
+
+    .my-card, 
+    .my-card-img-container {
+        width: 400px !important;
+        max-width: 400px;
+    }
+}
+
+/*COLUMNS*/
+
+.row.g-1, .row.gx-1 {
+    --bs-gutter-x: 0.25rem; /* Espacio mínimo de 4px */
+}
+
+/* Ajuste para que el texto de la card se vea bien en fondo oscuro */
+.card-title {
+    color: #fff !important;
+    font-size: 1rem !important;
+    margin-bottom: 5px;
+}
+
+.card-subtitle {
+    font-size: 0.9rem !important;
+    opacity: 0.7;
+}
+
+.my-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px; /* Altura fija para el área de texto y botón */
+    padding: 15px !important;
+}
+
+/* Títulos: Máximo 1 línea */
+.my-card .card-title {
+    font-size: 1.2rem !important;
+    height: 1.4em; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 5px;
+}
+
+/* Descripción: Máximo 2 líneas */
+.my-card .card-subtitle {
+    height: 3em; /* Espacio para exactamente dos líneas */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Corta el texto a la segunda línea */
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
 /*BUTTON CARD*/
 
 .custom-button {
-  background: transparent;
+  background: white;
   border: 2px solid #000; 
   color: #000; 
   padding: 10px 20px; 
@@ -183,14 +299,14 @@ border-bottom-right-radius: 16px;
   display: block;
   margin-top: 20px; 
   text-decoration: none;
-  color: rgb(34, 34, 36); 
+  color: rgb(218, 218, 224); 
   font-size: 14px;
 
 }
 
 .ver-todo-link:hover {
   text-decoration: underline;
-  color: darkblue; 
+  color: rgb(215, 11, 11); 
 }
 
 /*PRODUCT DESCRIPTION*/
@@ -239,7 +355,7 @@ border-bottom-right-radius: 16px;
     }
     
     .box .row h2 {
-        font-size: 1.8rem !important;
+        font-size: 2.8rem !important;
     }
 
     .details {
@@ -282,12 +398,12 @@ border-bottom-right-radius: 16px;
 /*Product Name*/
 
 .product-title-detail {
-    font-size: 2.6rem;
+    font-size: 3rem;
 }
 
 @media (max-width: 500px) {
     .product-title-detail {
-        font-size: 1.8rem;
+        font-size: 2.8rem;
     }
 }
 
@@ -471,4 +587,80 @@ body {
 .navbar-custom.scrolled {
     background-color: rgba(0, 0, 0, 0.7) !important;
     backdrop-filter: blur(15px);
+}
+
+/* Animación específica para el Texto */
+@keyframes text-glitch {
+  0% { transform: translate(0); text-shadow: none; }
+  20% { transform: translate(-1px, 1px); text-shadow: -1px 0 rgba(255,255,255,0.2), 1px 0 rgba(255,0,0,0.1); }
+  40% { transform: translate(-1px, -1px); text-shadow: 1px 0 rgba(255,255,255,0.2), -1px 0 rgba(0,255,255,0.1); }
+  60% { transform: translate(1px, 1px); text-shadow: -1px 0 rgba(255,255,255,0.2), 1px 0 rgba(255,0,0,0.1); }
+  80% { transform: translate(1px, -1px); text-shadow: 1px 0 rgba(255,255,255,0.2), -1px 0 rgba(0,255,255,0.1); }
+  100% { transform: translate(0); text-shadow: none; }
+}
+
+.glitch-text {
+  display: inline-block; /* Necesario para que el transform funcione */
+  animation: text-glitch 5s infinite; /* Un poco más lento que el ojo para que no sea molesto */
+  color: grey;
+  transition: all 0.3s ease;
+}
+
+/* Efecto al pasar el mouse (opcional) */
+.glitch-text:hover {
+  color: white;
+  text-shadow: 0 0 8px rgba(255,255,255,0.5);
+  cursor: crosshair; /* Cambia el cursor por una cruz para estilo técnico */
+}
+
+/* CURSOR TÉCNICO GLOBAL */
+
+/* Se aplica a enlaces, botones, inputs de tipo botón y cualquier elemento con clase 'btn' */
+a, 
+button, 
+.btn, 
+input[type="button"], 
+input[type="submit"], 
+.nav-link, 
+.custom-button,
+[role="button"] {
+    cursor: crosshair !important;
+}
+
+/*TABLE*/
+
+.table td, 
+.table th,
+.table tbody td {
+    color: #ffffff !important;
+    background-color: transparent !important;
+    border-bottom: 1px solid #333 !important; /* Mantiene la línea técnica sutil */
+}
+
+/* --- ESTILOS PARA TÍTULO DE MÚSICA GIGANTE --- */
+
+/* Usamos una ruta de clases más larga para ganar prioridad */
+.my-card-music-list .card-body .music-title {
+    font-size: calc(1rem + 4vw) !important; /* Forzamos el tamaño gigante */
+    font-weight: 900 !important;
+    line-height: 0.85 !important;
+    text-transform: uppercase;
+    margin-bottom: 20px !important;
+    word-wrap: break-word !important;
+    hyphens: auto; /* Agrega guiones si el navegador lo soporta */
+    max-width: 70%;
+    
+    /* Liberamos las restricciones que tenías antes */
+    height: auto !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    display: block !important;
+}
+
+/* Ajuste para que el cuerpo de la tarjeta de música no limite el crecimiento */
+.my-card-music-list .card-body {
+    height: auto !important; 
+    min-height: 250px; /* Un mínimo para que respire */
+    display: flex;
+    flex-direction: column;
 }
